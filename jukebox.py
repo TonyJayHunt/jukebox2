@@ -13,6 +13,12 @@ from PIL import Image, ImageTk
 pygame.mixer.init()
 
 def center_window(window):
+    """
+    Centers a given Tkinter window on the screen.
+
+    Parameters:
+        window (Tkinter window object): The window to center.
+    """
     window.update_idletasks()
     window_width = window.winfo_width()
     window_height = window.winfo_height()
@@ -24,6 +30,16 @@ def center_window(window):
 
 # Function to get all MP3 files with metadata
 def get_all_mp3_files_with_metadata(directory):
+    """
+    Fetches all MP3 files in a specified directory, extracting their metadata like title, artist, genre, and album art.
+
+    Parameters:
+        directory (string): Path to the folder containing MP3 files.
+
+    Returns:
+        List of dictionaries, each representing a song with metadata.
+    """
+ 
     mp3_files = []
     for root_dir, dirs, files in os.walk(directory):
         for file in files:
@@ -58,9 +74,24 @@ def get_all_mp3_files_with_metadata(directory):
     return mp3_files
 
 def is_abba_song(song):
+    """
+    Checks if the given song is by the artist "ABBA".
+
+    Parameters:
+        song (dictionary): A song dictionary containing metadata.
+
+    Returns:
+        bool: True if the artist is ABBA, otherwise False.
+    """
     return song['artist'].strip().lower() == 'abba'
 
 def play_song_immediately(song):
+    """
+    Stops the currently playing song and starts the selected song immediately.
+
+    Parameters:
+        song (dictionary): Metadata dictionary of the song to be played.
+    """
     global immediate_playback
     song_path = song['path']
     with immediate_lock:
@@ -86,6 +117,15 @@ def play_song_immediately(song):
     root.after(0, update_upcoming_songs)
 
 def confirm_selection(message):
+    """
+    Displays a confirmation dialog with a Yes/No option.
+
+    Parameters:
+        message (string): The confirmation message.
+
+    Returns:
+        bool: True if "Yes" is selected, otherwise False.
+    """    
     response = [False]  # Using list to allow modification in nested function
     dialog = tk.Toplevel(root)
     dialog.title("Confirm Selection")
@@ -109,6 +149,12 @@ def confirm_selection(message):
     return response[0]
 
 def select_song(song):
+    """
+    Handles the logic for selecting a song from the list.
+
+    Parameters:
+        song (dictionary): Metadata dictionary of the selected song.
+    """    
     song_name = song['title']
     if song_name in played_songs:
         tk.messagebox.showinfo("Selection Error", f"'{song_name}' has already been played.")
@@ -162,6 +208,9 @@ def select_song(song):
             update_upcoming_songs()
 
 def play_songs():
+    """
+    Main playback loop for the jukebox. Plays songs sequentially based on the active playlists.
+    """
     global immediate_playback, song_counter
     song_counter = 1  # Start at 1 to avoid playing a Christmas song first
     while True:
@@ -212,10 +261,16 @@ def play_songs():
         else:
             time.sleep(1)
 
-def play_start_song():
-    threading.Thread(target=handle_start_song).start()
+def play_special_song():
+    """
+    Starts a separate thread to handle the logic for playing the predefined start song.
+    """
+    threading.Thread(target=handle_special_song).start()
 
-def handle_start_song():
+def handle_special_song():
+    """
+    Handles the logic for fading out the current song, waiting, and playing the start song.
+    """
     global immediate_playback
     with immediate_lock:
         immediate_playback = True
@@ -257,6 +312,9 @@ def handle_start_song():
     root.after(0, update_upcoming_songs)
 
 def skip_song():
+    """
+    Skips the currently playing song after password authentication.
+    """    
     password = custom_password_dialog("Enter password to skip song:")
     if password == 'jonathan':
         pygame.mixer.music.stop()
@@ -267,6 +325,15 @@ def skip_song():
         tk.messagebox.showerror("Incorrect Password", "The password you entered is incorrect.")
 
 def custom_password_dialog(prompt):
+    """
+    Displays a password input dialog with a given prompt.
+
+    Parameters:
+        prompt (string): Message displayed on the password dialog.
+
+    Returns:
+        str: Entered password.
+    """
     response = [None]
     dialog = tk.Toplevel(root)
     dialog.title("Password")
@@ -287,6 +354,12 @@ def custom_password_dialog(prompt):
     return response[0]
 
 def update_now_playing(song):
+    """
+    Updates the "Now Playing" section of the UI with the current song's details and album art.
+
+    Parameters:
+        song (dict): Metadata dictionary of the currently playing song.
+    """
     # Update song info
     song_info = f"{song['artist']} - {song['title']}"
     song_info_label.config(text=song_info)
@@ -317,6 +390,9 @@ def get_next_song():
 
     This function checks if an immediate song is playing, then prioritizes songs from the 
     primary playlist, followed by Christmas songs (every 5th song), and finally the default playlist.
+
+    Returns:
+        dict or None: Metadata dictionary of the next song, or None if no songs are queued.
     """
     if immediate_playback:
         return None  # Immediate song is playing, next song is not determined yet
@@ -330,6 +406,9 @@ def get_next_song():
         return None
 
 def update_up_next():
+    """
+    Updates the "Up Next" section in the UI with the details of the next song.
+    """    
     next_song = get_next_song()
     if next_song:
         up_next_info = f"{next_song['artist']} - {next_song['title']}"
@@ -338,9 +417,15 @@ def update_up_next():
         up_next_label.config(text="")
 
 def update_song_list(*args):
+    """
+    Triggers the display update of the song list based on active filters.
+    """
     display_songs()
 
 def display_songs():
+    """
+    Populates the song selection area with buttons for each available song.
+    """
     for widget in button_frame.winfo_children():
         widget.destroy()
     genre_filter = genre_filter_var.get()
@@ -369,6 +454,17 @@ def display_songs():
     canvas.config(scrollregion=canvas.bbox("all"))
 
 def update_upcoming_songs():
+    """
+    Dynamically updates the "Upcoming Songs" section of the application.
+
+    Purpose:
+        Displays the next songs to be played based on current playlists and playback rules.
+
+    Key Steps:
+    1. Clears the current display of upcoming songs.
+    2. Builds a list of up to 10 songs using playback rules (e.g., Christmas songs every 5th).
+    3. Dynamically updates the visual elements of the upcoming songs section in the GUI.
+    """
     global song_counter
     # Initialize song_counter if not defined
     try:
@@ -623,12 +719,12 @@ def on_upcoming_frame_configure(event):
 
 upcoming_list_frame.bind('<Configure>', on_upcoming_frame_configure)
 
-# Skip and Mr Jogin Buttons placed at the bottom of now_playing_frame
+# Skip and Special Song Buttons placed at the bottom of now_playing_frame
 button_frame_np = tk.Frame(now_playing_frame)
 button_frame_np.place(relx=0.5, rely=0.9, anchor='center')
 
-mr_jogin_button = tk.Button(button_frame_np, text='Mr Jogin', font=('Helvetica', 12),
-                            command=play_start_song, bg='lightgrey', fg='grey', relief='flat')
+mr_jogin_button = tk.Button(button_frame_np, text='Special Songs', font=('Helvetica', 12),
+                            command=play_special_song, bg='lightgrey', fg='grey', relief='flat')
 mr_jogin_button.pack(side='left', padx=20)
 
 skip_button = tk.Button(button_frame_np, text='Skip', font=('Helvetica', 12),
