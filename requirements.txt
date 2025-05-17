@@ -4,3 +4,4 @@ mutagen
 requests
 python-docx
 pytest
+pytest-xvfb

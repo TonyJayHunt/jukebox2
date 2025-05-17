@@ -1,4 +1,5 @@
 import pytest
+import os
 import tkinter as tk
 from gui import JukeboxGUI
 
