@@ -20,6 +20,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pytest pillow mutagen requests python-docx
+        pip install pytest pillow pygame mutagen gTTS
+    - name: Add project root to PYTHONPATH
+      run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
     - name: Run tests
       run: pytest
