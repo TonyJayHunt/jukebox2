@@ -1,5 +1,6 @@
-#import os
-#os.environ["SDL_AUDIODRIVER"] = "dummy"
+import os
+if os.environ.get("GITHUB_ACTIONS", "") == "true":
+    os.environ["SDL_AUDIODRIVER"] = "dummy"
 import pygame
 import threading
 import time
