@@ -732,8 +732,8 @@ skip_button = tk.Button(button_frame_np, text='Skip', font=('Helvetica', 12),
 skip_button.pack(side='left', padx=20)
 
 # Trace changes to filters
-genre_filter_var.trace('w', update_song_list)
-artist_filter_var.trace('w', update_song_list)
+genre_filter_var.trace_add('write', update_song_list)
+artist_filter_var.trace_add('write', update_song_list)
 
 # Display songs initially
 display_songs()
