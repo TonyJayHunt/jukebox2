@@ -4,6 +4,7 @@ import threading
 import time
 import os
 import random
+import json
 
 from gui import JukeboxGUI
 from player import JukeboxPlayer
@@ -126,10 +127,16 @@ def main():
     for idx, song in enumerate(all_songs):
         song['key'] = idx
 
-    # Shuffle default playlist if not already loaded
-    non_christmas = [s for s in all_songs if 'christmas' not in s['genres']]
+    # --- Load Christmas playlist from file ---
+    with open("playlists/christmas_playlist.json", "r", encoding="utf-8") as f:
+        xmas_files = set(json.load(f))
+    # Find matching songs (by filename)
+    auto_christmas_songs = [s for s in all_songs if os.path.basename(s['path']) in xmas_files]
+    # The rest of the songs (including other christmas-tagged) are normal
+    non_christmas = [s for s in all_songs if os.path.basename(s['path']) not in xmas_files]
+
+    # You can still shuffle non-christmas playlist if you want
     random.shuffle(non_christmas)
-    christmas_songs = [s for s in all_songs if 'christmas' in s['genres']]
 
     player = JukeboxPlayer(
         root,
@@ -139,17 +146,17 @@ def main():
         start_playback_callback=start_playback
     )
     player.default_playlist = non_christmas
-    player.christmas_playlist = christmas_songs
+    player.christmas_playlist = auto_christmas_songs
 
+    # The rest of your setup...
     gui = JukeboxGUI(root, select_song, player.play_special_song, player)
-
     gui.all_songs = all_songs
 
+    # Populate genres and artists as before, but do NOT filter out 'christmas'
     all_genres = set()
     for song in all_songs:
         all_genres.update(song['genres'])
     all_genres.discard('unknown genre')
-    all_genres.discard('christmas')
     gui.populate_genre_buttons(sorted(list(all_genres)))
 
     artist_songs = {}
@@ -164,7 +171,6 @@ def main():
 
     gui.display_songs()
     gui.update_upcoming_songs(get_upcoming_songs())
-
     root.mainloop()
 
 if __name__ == "__main__":
