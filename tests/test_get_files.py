@@ -14,7 +14,8 @@ def test_extract_files_to_csv(tmp_path):
     get_files.extract_files_to_csv(str(d), str(out_csv))
     with open(out_csv, newline='', encoding='utf-8') as f:
         rows = list(csv.reader(f))
-    assert rows[0] == ['Filename']
+    # Updated: Accepts new three-column header
+    assert rows[0] == ['Filename', 'Title', 'Artist']
     # Should list files only, with ".mp3" removed
     filenames = [row[0] for row in rows[1:]]
     assert any("a" in name for name in filenames)
