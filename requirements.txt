@@ -5,3 +5,7 @@ requests
 python-docx
 pytest
 pytest-xvfb
+yt-dlp
+pandas 
+wikipedia 
+beautifulsoup4
