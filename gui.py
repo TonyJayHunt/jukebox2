@@ -7,7 +7,6 @@ import os
 class JukeboxGUI:
     def __init__(self, root, select_song_callback, play_special_song_callback, player):
         self.root = root
-        self.hidden_song_keys = set()
         self.select_song = select_song_callback
         self.play_special_song = play_special_song_callback
         self.player = player
@@ -15,6 +14,7 @@ class JukeboxGUI:
         self.genre_filter_var = tk.StringVar(value='All')
         self.artist_filter_var = tk.StringVar(value='All')
         self.song_buttons = {}
+        self.hidden_song_keys = set()
         self._setup_styles()
         self._create_frames()
         self._create_widgets()
@@ -54,15 +54,14 @@ class JukeboxGUI:
         self._load_filter_background()
         tk.Label(self.filter_frame, text='Select An Artist',
                  font=self.header_font, bg=self.filter_frame.cget('bg')).pack(pady=10)
-        artist_combobox = ttk.Combobox(
+        self.artist_combobox = ttk.Combobox(
             self.filter_frame,
             textvariable=self.artist_filter_var,
             values=[],
             font=self.filter_entry_font)
-        artist_combobox.pack(pady=5)
-        self.artist_combobox = artist_combobox
+        self.artist_combobox.pack(pady=5)
 
-        # --- Clear Filter button ---
+        # Clear Filter Button - not packed initially
         self.clear_artist_filter_btn = tk.Button(
             self.filter_frame,
             text='Clear Filter',
@@ -71,13 +70,25 @@ class JukeboxGUI:
             bg='#ffcccc',
             fg='black'
         )
-        self.clear_artist_filter_btn.pack(pady=(5, 5))
-        self.clear_artist_filter_btn.pack_forget()  # Hide it by default
+        self.clear_artist_filter_btn.pack_forget()
 
         tk.Label(self.filter_frame, text='Select A Genre',
                  font=self.header_font, bg=self.filter_frame.cget('bg')).pack(pady=10)
-        self.genre_button_frame = tk.Frame(self.filter_frame, bg=self.filter_frame.cget('bg'))
-        self.genre_button_frame.pack(pady=5)
+
+        # This frame will take up all remaining space
+        self.genre_canvas_frame = tk.Frame(self.filter_frame)
+        self.genre_canvas_frame.pack(fill='both', expand=True)
+        self.genre_canvas = tk.Canvas(self.genre_canvas_frame, bg=self.filter_frame.cget('bg'), highlightthickness=0)
+        self.genre_scrollbar = tk.Scrollbar(
+            self.genre_canvas_frame, orient='vertical', command=self.genre_canvas.yview)
+        self.genre_scrollbar.pack(side='right', fill='y')
+        self.genre_canvas.pack(side='left', fill='both', expand=True)
+        self.genre_canvas.configure(yscrollcommand=self.genre_scrollbar.set)
+        self.genre_button_frame = tk.Frame(self.genre_canvas, bg=self.filter_frame.cget('bg'))
+        self.genre_canvas.create_window((0, 0), window=self.genre_button_frame, anchor='nw')
+        self.genre_button_frame.bind('<Configure>', lambda e: self.genre_canvas.configure(
+            scrollregion=self.genre_canvas.bbox("all")
+        ))
 
     def _create_now_playing_widgets(self):
         self._load_now_playing_background()
@@ -85,19 +96,23 @@ class JukeboxGUI:
         self.now_playing_inner_frame.place(relx=0.5, rely=0.3, anchor='center')
         tk.Label(self.now_playing_inner_frame, text='Now Playing',
                  font=self.header_font, bg=self.now_playing_inner_frame.cget('bg')).pack(pady=10)
-        self.album_art_label = tk.Label(self.now_playing_inner_frame, bg=self.now_playing_inner_frame.cget('bg'))
-        self.album_art_label.pack(pady=10)
-        self.song_info_label = tk.Label(self.now_playing_inner_frame, text='',
+        # Album art and song info in a vertical box
+        self.art_and_info_frame = tk.Frame(self.now_playing_inner_frame, bg=self.now_playing_inner_frame.cget('bg'))
+        self.art_and_info_frame.pack()
+        self.album_art_label = tk.Label(self.art_and_info_frame, bg=self.now_playing_inner_frame.cget('bg'))
+        self.album_art_label.pack(pady=(0, 10))
+        self.song_info_label = tk.Label(self.art_and_info_frame, text='',
                                         font=self.info_font, bg=self.now_playing_inner_frame.cget('bg'))
-        self.song_info_label.pack(pady=10)
+        self.song_info_label.pack(pady=0)
         self.up_next_label = tk.Label(self.now_playing_inner_frame, text='',
                                       font=self.info_font, bg=self.now_playing_inner_frame.cget('bg'))
         self.up_next_label.pack(pady=10)
+        # Spacer
         self.spacer = tk.Frame(self.now_playing_frame, height=30, bg=self.now_playing_frame.cget('bg'))
         self.spacer.place(relx=0.5, rely=0.55, anchor='n', relwidth=1)
         self.upcoming_songs_label = tk.Label(
             self.now_playing_frame,
-            text='Next Few Songs',
+            text='Upcoming Songs',
             font=self.header_font,
             bg=self.now_playing_frame.cget('bg')
         )
@@ -134,30 +149,27 @@ class JukeboxGUI:
             padx=20,
             pady=10)
         self.dance_button.pack(pady=10)
+        # Add the Skip button if needed
         self.skip_button = tk.Button(
-        self.button_frame_np,
-        text="Skip",
-        font=self.info_font,
-        command=self._handle_skip_button,
-        bg='#ffcccc',
-        fg='black',
-        relief='raised',
-        padx=20,
-        pady=10)
+            self.button_frame_np,
+            text="Skip",
+            font=self.info_font,
+            command=self._handle_skip_button if hasattr(self, '_handle_skip_button') else None,
+            bg='#ffcccc',
+            fg='black',
+            relief='raised',
+            padx=20,
+            pady=10)
         self.skip_button.pack(pady=10)
-
-    def _handle_skip_button(self):
-        if hasattr(self.player, "skip_current_song"):
-            self.player.skip_current_song()
 
     def _create_song_list_widgets(self):
         self._load_song_selection_background()
         self.canvas = tk.Canvas(self.buttons_frame, bg=self.buttons_frame.cget('bg'))
         self.scrollbar = tk.Scrollbar(
-            self.buttons_frame, 
-            orient='vertical', 
+            self.buttons_frame,
+            orient='vertical',
             command=self.canvas.yview,
-            width=50,
+            width=25,
             troughcolor="#bbbbbb",
             bg="#333333",
             activebackground="#222222"
@@ -181,10 +193,9 @@ class JukeboxGUI:
         self.upcoming_canvas.configure(scrollregion=self.upcoming_canvas.bbox('all'))
 
     def _on_filter_change(self, *args):
+        self.clear_artist_filter_btn.pack_forget()
         if self.artist_filter_var.get() != 'All':
             self.clear_artist_filter_btn.pack(pady=(5, 5))
-        else:
-            self.clear_artist_filter_btn.pack_forget()
         self.display_songs()
 
     def _clear_artist_filter(self):
@@ -214,7 +225,7 @@ class JukeboxGUI:
         for song in self.all_songs:
             if song['key'] in self.hidden_song_keys:
                 continue
-            elif ((genre_filter == 'All' or
+            if ((genre_filter == 'All' or
                  genre_filter.lower() in song['genres']) and
                 song['title'] not in self.player.played_songs and
                 'christmas' not in song['genres'] and
@@ -261,11 +272,13 @@ class JukeboxGUI:
     def update_now_playing(self, song):
         song_info = f"{song['artist']} - {song['title']}"
         self.song_info_label.config(text=song_info)
+        # Set a max size for album art
+        max_size = 320  # px
         if song['album_art']:
             image_data = song['album_art']
             try:
                 image = Image.open(io.BytesIO(image_data))
-                image = image.resize((400, 400), Image.LANCZOS)
+                image.thumbnail((max_size, max_size), Image.LANCZOS)
                 album_art = ImageTk.PhotoImage(image)
                 self.album_art_label.config(image=album_art)
                 self.album_art_label.image = album_art
@@ -290,8 +303,10 @@ class JukeboxGUI:
                             bg='black',
                             relief='flat',
                             padx=10,
-                            pady=5)
-            btn.pack(pady=5, fill='x')
+                            pady=5,
+                            height=1,
+                            width=18)
+            btn.pack(pady=3, fill='x')
         self.genre_filter_var.set('All')
 
     def populate_artist_combobox(self, artists):
@@ -304,10 +319,8 @@ class JukeboxGUI:
 
     def _load_song_selection_background(self):
         try:
-            print("CWD:", os.getcwd())
             img_path = './christmastree.jpg'
             if not os.path.exists(img_path):
-                print(f"ERROR: Background image {img_path} does not exist.")
                 self.buttons_frame.config(bg='red')
                 return
             screen_width = self.root.winfo_screenwidth()
@@ -322,17 +335,14 @@ class JukeboxGUI:
                 self.buttons_frame, image=self.song_selection_bg)
             self.song_selection_bg_label.place(relwidth=1, relheight=1)
             self.song_selection_bg_label.lower()
-            print("Song selection background loaded successfully.")
         except Exception as e:
             print(f"Error loading selection background image: {e}")
             self.buttons_frame.config(bg='SystemButtonFace')
 
     def _load_now_playing_background(self):
         try:
-            print("CWD:", os.getcwd())
             img_path = './fairylights.jpg'
             if not os.path.exists(img_path):
-                print(f"ERROR: Background image {img_path} does not exist.")
                 self.now_playing_frame.config(bg='red')
                 return
             screen_width = self.root.winfo_screenwidth()
@@ -347,17 +357,14 @@ class JukeboxGUI:
                 self.now_playing_frame, image=self.now_playing_bg)
             self.now_playing_bg_label.place(relwidth=1, relheight=1)
             self.now_playing_bg_label.lower()
-            print("Now playing background loaded successfully.")
         except Exception as e:
             print(f"Error loading now playing background image: {e}")
             self.now_playing_frame.config(bg='SystemButtonFace')
 
     def _load_filter_background(self):
         try:
-            print("CWD:", os.getcwd())
             img_path = './bauble.jpg'
             if not os.path.exists(img_path):
-                print(f"ERROR: Background image {img_path} does not exist.")
                 self.filter_frame.config(bg='red')
                 return
             screen_width = self.root.winfo_screenwidth()
@@ -372,10 +379,14 @@ class JukeboxGUI:
                 self.filter_frame, image=self.filter_bg)
             self.filter_bg_label.place(relwidth=1, relheight=1)
             self.filter_bg_label.lower()
-            print("Filter background loaded successfully.")
         except Exception as e:
             print(f"Error loading filter background image: {e}")
             self.filter_frame.config(bg='SystemButtonFace')
 
     def update_up_next(self):
         pass
+
+    # Optionally add skip support
+    def _handle_skip_button(self):
+        if hasattr(self.player, "skip_current_song"):
+            self.player.skip_current_song()
