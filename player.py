@@ -21,7 +21,7 @@ class JukeboxPlayer:
         self.update_up_next = update_up_next_callback
         self.update_upcoming_songs = update_upcoming_songs_callback
         self.default_playlist = []
-        self.christmas_playlist = []
+        self.Special_playlist = []
         self.primary_playlist = []
         self.played_songs = set()
         self.selected_songs = set()
@@ -34,7 +34,7 @@ class JukeboxPlayer:
 
     def load_playlists(self, all_songs):
         self.default_playlist = [song for song in all_songs if 'christmas' not in song['genres']]
-        self.christmas_playlist = [song for song in all_songs if 'christmas' in song['genres']]
+        self.Special_playlist = [song for song in all_songs if 'christmas' in song['genres']]
 
     def play_song_immediately(self, song):
         song_path = song['path']
@@ -74,8 +74,8 @@ class JukeboxPlayer:
     def _get_next_song(self):
         if self.primary_playlist:
             return self.primary_playlist.pop(0)
-        elif self.song_counter % 5 == 0 and self.song_counter != 0 and self.christmas_playlist:
-            return self.christmas_playlist.pop(0)
+        elif self.song_counter % 5 == 0 and self.song_counter != 0 and self.Special_playlist:
+            return self.Special_playlist.pop(0)
         elif self.default_playlist:
             return self.default_playlist.pop(0)
         else:
@@ -93,8 +93,8 @@ class JukeboxPlayer:
             # Remove from playlists if present
             if song in self.default_playlist:
                 self.default_playlist.remove(song)
-            if song in self.christmas_playlist:
-                self.christmas_playlist.remove(song)
+            if song in self.Special_playlist:
+                self.Special_playlist.remove(song)
             self.root.after(0, self.update_now_playing, song)
             self.root.after(0, self.update_up_next)
             self.root.after(0, self.update_upcoming_songs)

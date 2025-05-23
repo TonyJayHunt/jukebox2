@@ -7,7 +7,7 @@ def jukebox_player():
     p = player.JukeboxPlayer(None, lambda x: None, lambda: None, lambda x: None)
     p.primary_playlist = [{'title': 'A', 'path': 'a.mp3', 'genres': ['pop']}]
     p.default_playlist = [{'title': 'B', 'path': 'b.mp3', 'genres': ['pop']}]
-    p.christmas_playlist = [{'title': 'C', 'path': 'c.mp3', 'genres': ['christmas']}]
+    p.Special_playlist = [{'title': 'C', 'path': 'c.mp3', 'genres': ['christmas']}]
     p.song_counter = 4
     return p
 
@@ -19,7 +19,7 @@ def test_get_next_song_christmas():
     p = player.JukeboxPlayer(None, lambda x: None, lambda: None, lambda x: None)
     p.primary_playlist = []
     p.default_playlist = []
-    p.christmas_playlist = [{'title': 'C', 'path': 'c.mp3', 'genres': ['christmas']}]
+    p.Special_playlist = [{'title': 'C', 'path': 'c.mp3', 'genres': ['christmas']}]
     p.song_counter = 5
     assert p._get_next_song()['title'] == 'C'
 

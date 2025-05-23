@@ -180,8 +180,8 @@ def select_song(song):
                 # Remove from playlists if present
                 if song in default_playlist:
                     default_playlist.remove(song)
-                if song in christmas_playlist:
-                    christmas_playlist.remove(song)
+                if song in Special_playlist:
+                    Special_playlist.remove(song)
                 # Update up next
                 root.after(0, update_up_next)
                 root.after(0, update_upcoming_songs)
@@ -196,8 +196,8 @@ def select_song(song):
             # Remove from playlists if present
             if song in default_playlist:
                 default_playlist.remove(song)
-            if song in christmas_playlist:
-                christmas_playlist.remove(song)
+            if song in Special_playlist:
+                Special_playlist.remove(song)
             # If this is the first song selected, update up next
             if len(primary_playlist) == 1:
                 update_up_next()
@@ -221,8 +221,8 @@ def play_songs():
         if not pygame.mixer.music.get_busy():
             if primary_playlist:
                 song = primary_playlist.pop(0)
-            elif song_counter % 5 == 0 and song_counter != 0 and christmas_playlist:
-                song = christmas_playlist.pop(0)
+            elif song_counter % 5 == 0 and song_counter != 0 and Special_playlist:
+                song = Special_playlist.pop(0)
             elif default_playlist:
                 song = default_playlist.pop(0)
             else:
@@ -398,8 +398,8 @@ def get_next_song():
         return None  # Immediate song is playing, next song is not determined yet
     if primary_playlist:
         return primary_playlist[0]
-    elif (song_counter) % 5 == 0 and song_counter != 0 and christmas_playlist:
-        return christmas_playlist[0]
+    elif (song_counter) % 5 == 0 and song_counter != 0 and Special_playlist:
+        return Special_playlist[0]
     elif default_playlist:
         return default_playlist[0]
     else:
@@ -482,11 +482,11 @@ def update_upcoming_songs():
     # Determine upcoming songs based on play order
     temp_song_counter = song_counter
     default_playlist_copy = default_playlist.copy()
-    christmas_playlist_copy = christmas_playlist.copy()
-    while len(upcoming_songs) < 10 and (default_playlist_copy or christmas_playlist_copy):
-        if (temp_song_counter % 5 == 0 and temp_song_counter != 0 and christmas_playlist_copy):
+    Special_playlist_copy = Special_playlist.copy()
+    while len(upcoming_songs) < 10 and (default_playlist_copy or Special_playlist_copy):
+        if (temp_song_counter % 5 == 0 and temp_song_counter != 0 and Special_playlist_copy):
             # Add a Christmas song
-            song = christmas_playlist_copy.pop(0)
+            song = Special_playlist_copy.pop(0)
             upcoming_songs.append(song)
         elif default_playlist_copy:
             song = default_playlist_copy.pop(0)
@@ -526,8 +526,8 @@ for idx, song in enumerate(all_songs):
     song['key'] = idx
 
 # Create default and Christmas playlists
-default_playlist = [song for song in all_songs if 'christmas' not in song['genres']]
-christmas_playlist = [song for song in all_songs if 'christmas' in song['genres']]
+default_playlist = [song for song in all_songs if 'Special' not in song['genres']]
+Special_playlist = [song for song in all_songs if 'Special' in song['genres']]
 primary_playlist = []
 
 selected_songs = set()

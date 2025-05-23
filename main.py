@@ -59,8 +59,8 @@ def select_song(song):
                 root.after(0, remove_button)
                 if song in player.default_playlist:
                     player.default_playlist.remove(song)
-                if song in player.christmas_playlist:
-                    player.christmas_playlist.remove(song)
+                if song in player.Special_playlist:
+                    player.Special_playlist.remove(song)
                 gui.update_up_next()
                 gui.update_upcoming_songs(get_upcoming_songs())
         else:
@@ -72,8 +72,8 @@ def select_song(song):
             root.after(0, remove_button)
             if song in player.default_playlist:
                 player.default_playlist.remove(song)
-            if song in player.christmas_playlist:
-                player.christmas_playlist.remove(song)
+            if song in player.Special_playlist:
+                player.Special_playlist.remove(song)
             if len(player.primary_playlist) == 1:
                 gui.update_up_next()
             gui.artist_filter_var.set('All')
@@ -85,7 +85,7 @@ def get_upcoming_songs():
     global player
     primary = list(player.primary_playlist)
     default = list(player.default_playlist)
-    christmas = list(player.christmas_playlist)
+    christmas = list(player.Special_playlist)
     out = []
     song_counter = player.song_counter
     while len(out) < 10 and (primary or default or christmas):
@@ -139,7 +139,7 @@ def main():
         start_playback_callback=start_playback
     )
     player.default_playlist = non_christmas
-    player.christmas_playlist = christmas_songs
+    player.Special_playlist = christmas_songs
 
     gui = JukeboxGUI(root, select_song, player.play_special_song, player)
 

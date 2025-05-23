@@ -5,7 +5,7 @@ def test_get_upcoming_songs_logic(monkeypatch):
     class DummyPlayer:
         primary_playlist = [{'title': 'A'}]
         default_playlist = [{'title': 'B'}]
-        christmas_playlist = [{'title': 'C'}]
+        Special_playlist = [{'title': 'C'}]
         song_counter = 4
     main.player = DummyPlayer()
     result = main.get_upcoming_songs()
