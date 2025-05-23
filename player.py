@@ -34,7 +34,7 @@ class JukeboxPlayer:
 
     def load_playlists(self, all_songs):
         self.default_playlist = [song for song in all_songs if 'christmas' not in song['genres']]
-        self.Special_playlist = [song for song in all_songs if 'christmas' in song['genres']]
+        self.Special_playlist = [song for song in all_songs if 'special' in song['genres']]
 
     def play_song_immediately(self, song):
         song_path = song['path']

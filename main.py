@@ -85,16 +85,16 @@ def get_upcoming_songs():
     global player
     primary = list(player.primary_playlist)
     default = list(player.default_playlist)
-    christmas = list(player.Special_playlist)
+    Special = list(player.Special_playlist)
     out = []
     song_counter = player.song_counter
-    while len(out) < 10 and (primary or default or christmas):
+    while len(out) < 10 and (primary or default or Special):
         if primary:
             song = primary.pop(0)
             out.append(song)
             song_counter += 1
-        elif song_counter % 5 == 0 and song_counter != 0 and christmas:
-            song = christmas.pop(0)
+        elif song_counter % 5 == 0 and song_counter != 0 and Special:
+            song = Special.pop(0)
             out.append(song)
             song_counter += 1
         elif default:
@@ -127,9 +127,9 @@ def main():
         song['key'] = idx
 
     # Shuffle default playlist if not already loaded
-    non_christmas = [s for s in all_songs if 'christmas' not in s['genres']]
-    random.shuffle(non_christmas)
-    christmas_songs = [s for s in all_songs if 'christmas' in s['genres']]
+    non_Special = [s for s in all_songs if 'christmas' not in s['genres']]
+    random.shuffle(non_Special)
+    Special_songs = [s for s in all_songs if 'special' in s['genres']]
 
     player = JukeboxPlayer(
         root,
@@ -138,8 +138,8 @@ def main():
         gui_update_upcoming_songs,
         start_playback_callback=start_playback
     )
-    player.default_playlist = non_christmas
-    player.Special_playlist = christmas_songs
+    player.default_playlist = non_Special
+    player.Special_playlist = Special_songs
 
     gui = JukeboxGUI(root, select_song, player.play_special_song, player)
 
@@ -149,7 +149,7 @@ def main():
     for song in all_songs:
         all_genres.update(song['genres'])
     all_genres.discard('unknown genre')
-    all_genres.discard('christmas')
+    all_genres.discard('special')
     gui.populate_genre_buttons(sorted(list(all_genres)))
 
     artist_songs = {}
@@ -159,7 +159,7 @@ def main():
             artist_songs[artist] = []
         artist_songs[artist].append(song)
     valid_artists = [artist for artist, songs in artist_songs.items()
-                     if any('christmas' not in song['genres'] for song in songs)]
+                     if any('special' not in song['genres'] for song in songs)]
     gui.populate_artist_combobox(sorted(valid_artists))
 
     gui.display_songs()

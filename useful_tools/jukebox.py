@@ -212,7 +212,7 @@ def play_songs():
     Main playback loop for the jukebox. Plays songs sequentially based on the active playlists.
     """
     global immediate_playback, song_counter
-    song_counter = 1  # Start at 1 to avoid playing a Christmas song first
+    song_counter = 1  # Start at 1 to avoid playing a Special song first
     while True:
         with immediate_lock:
             if immediate_playback:
@@ -389,7 +389,7 @@ def get_next_song():
     Determine the next song to play based on the current playback state and playlists.
 
     This function checks if an immediate song is playing, then prioritizes songs from the 
-    primary playlist, followed by Christmas songs (every 5th song), and finally the default playlist.
+    primary playlist, followed by Special songs (every 5th song), and finally the default playlist.
 
     Returns:
         dict or None: Metadata dictionary of the next song, or None if no songs are queued.
@@ -434,7 +434,7 @@ def display_songs():
     for song in all_songs:
         if ((genre_filter == 'All' or genre_filter.lower() in song['genres']) and
             song['title'] not in played_songs and
-            'christmas' not in song['genres'] and
+            'special' not in song['genres'] and
             (artist_filter == 'All' or song['artist'] == artist_filter)):
             filtered_songs.append(song)
 
@@ -462,7 +462,7 @@ def update_upcoming_songs():
 
     Key Steps:
     1. Clears the current display of upcoming songs.
-    2. Builds a list of up to 10 songs using playback rules (e.g., Christmas songs every 5th).
+    2. Builds a list of up to 10 songs using playback rules (e.g., Special songs every 5th).
     3. Dynamically updates the visual elements of the upcoming songs section in the GUI.
     """
     global song_counter
@@ -485,7 +485,7 @@ def update_upcoming_songs():
     Special_playlist_copy = Special_playlist.copy()
     while len(upcoming_songs) < 10 and (default_playlist_copy or Special_playlist_copy):
         if (temp_song_counter % 5 == 0 and temp_song_counter != 0 and Special_playlist_copy):
-            # Add a Christmas song
+            # Add a Special song
             song = Special_playlist_copy.pop(0)
             upcoming_songs.append(song)
         elif default_playlist_copy:
@@ -495,7 +495,7 @@ def update_upcoming_songs():
     # Display the upcoming songs
     for song in upcoming_songs:
         song_info = f"{song['artist']} - {song['title']}"
-        if 'christmas' in song['genres']:
+        if 'special' in song['genres']:
             song_info += " 🎄"
         label = tk.Label(upcoming_list_frame, text=song_info, font=('Helvetica', 12), anchor='center', justify='center')
         label.pack(anchor='center')
@@ -525,7 +525,7 @@ all_songs = get_all_mp3_files_with_metadata('mp3/')
 for idx, song in enumerate(all_songs):
     song['key'] = idx
 
-# Create default and Christmas playlists
+# Create default and Special playlists
 default_playlist = [song for song in all_songs if 'Special' not in song['genres']]
 Special_playlist = [song for song in all_songs if 'Special' in song['genres']]
 primary_playlist = []
@@ -536,7 +536,7 @@ immediate_playback = False
 immediate_lock = threading.Lock()
 
 # Initialize song_counter at global scope
-song_counter = 1  # Start at 1 to avoid playing a Christmas song first
+song_counter = 1  # Start at 1 to avoid playing a Special song first
 
 # Collect all genres for the buttons
 all_genres = set()
@@ -544,12 +544,12 @@ for song in all_songs:
     all_genres.update(song['genres'])
 if 'unknown genre' in all_genres:
     all_genres.remove('unknown genre')
-if 'christmas' in all_genres:
-    all_genres.remove('christmas')
+if 'special' in all_genres:
+    all_genres.remove('special')
 genre_list = sorted(all_genres)
 genre_list.insert(0, 'All')  # Add 'All' option
 
-# Collect all artists for the dropdown, excluding artists with only Christmas songs
+# Collect all artists for the dropdown, excluding artists with only Special songs
 artist_songs = {}
 for song in all_songs:
     artist = song['artist']
@@ -557,9 +557,9 @@ for song in all_songs:
         artist_songs[artist] = []
     artist_songs[artist].append(song)
 
-# Filter artists to include only those with non-Christmas songs
+# Filter artists to include only those with non-Special songs
 valid_artists = [artist for artist, songs in artist_songs.items()
-                 if any('christmas' not in song['genres'] for song in songs)]
+                 if any('special' not in song['genres'] for song in songs)]
 
 artist_list = sorted(valid_artists)
 artist_list.insert(0, 'All')  # Add 'All' option
