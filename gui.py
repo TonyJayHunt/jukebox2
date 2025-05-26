@@ -1,3 +1,7 @@
+
+import io
+import os
+from PIL import Image as PILImage
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
@@ -9,11 +13,35 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.properties import StringProperty, ListProperty, ObjectProperty
 from kivy.core.text import LabelBase
 LabelBase.register(name="EmojiFont", fn_regular=".\\assets\\font\\seguiemj.ttf")
-
-import io
-from PIL import Image as PILImage
 from kivy.core.image import Image as CoreImage
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.image import Image
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.graphics import Color, Rectangle
 
+class CreamLabel(BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(orientation='vertical', size_hint_y=None, height=30)
+        with self.canvas.before:
+            Color(1, 0.99, 0.9, 1)  # Cream
+            self.bg_rect = Rectangle(pos=self.pos, size=self.size)
+        self.label = Label(
+            text=kwargs.get('text', ''),
+            font_size=kwargs.get('font_size', 30),
+            markup=True,
+            color=kwargs.get('color', (0.15, 0.15, 0.15, 1)),
+            size_hint=(1, 1),
+            valign='middle',
+            halign='center'
+        )
+        self.add_widget(self.label)
+        self.bind(pos=self._update_rect, size=self._update_rect)
+
+    def _update_rect(self, *args):
+        self.bg_rect.pos = self.pos
+        self.bg_rect.size = self.size
+        
 class JukeboxGUI(BoxLayout):
     def emoji_for(self, genres):
         EMOJI_BY_GENRE = {
@@ -61,13 +89,29 @@ class JukeboxGUI(BoxLayout):
         self.filter_box = BoxLayout(orientation='vertical', size_hint=(.2, 1), spacing=10)
         self.add_widget(self.filter_box)
 
-        self.artist_spinner = Spinner(text='All', values=['All'], size_hint_y=None, height=44)
+        self.artist_spinner = Spinner(
+                                    text='All',
+                                    values=['All'],
+                                    size_hint_y=None,
+                                    height=44,
+                                    background_color=(0.5, 1, 0.5, 1)  # <--- Green!
+                                )
         self.artist_spinner.bind(text=self.on_artist_selected)
-        self.filter_box.add_widget(Label(text='Select Artist', size_hint_y=None, height=30))
+        self.filter_box.add_widget(Label(text='[b]Select AN Artist[/b]', 
+                                            size_hint_y=None,
+                                            markup=True,
+                                            color= (0.15, 0.15, 0.15, 1), 
+                                            font_size=30, 
+                                            height=30))
         self.filter_box.add_widget(self.artist_spinner)
 
         
-        self.filter_box.add_widget(Label(text='Select Genre', size_hint_y=None, height=30))
+        self.filter_box.add_widget(Label(text='[b]Select A Genre[/b]',
+                                            size_hint_y=None,
+                                            markup=True,
+                                            color= (0.15, 0.15, 0.15, 1), 
+                                            font_size=30, 
+                                            height=30))
         from kivy.uix.scrollview import ScrollView
         self.genre_scroll = ScrollView(size_hint=(1, 0.6))
         self.genre_buttons_box = BoxLayout(orientation='vertical', size_hint_y=None)
@@ -76,8 +120,10 @@ class JukeboxGUI(BoxLayout):
         self.filter_box.add_widget(self.genre_scroll)
 
         self.clear_btn = Button(
-    text='Clear Artist Filter', size_hint_y=None, height=40,
-    on_press=lambda x: self.set_artist_filter('All'), background_color=(1,0.4,0.4,1))
+            text='Clear Artist Filter', 
+            size_hint_y=None, height=40,
+            on_press=lambda x: self.set_artist_filter('All'), 
+            background_color=(1,0.4,0.4,1))
         self.clear_btn.opacity = 0  # Start hidden
         self.clear_btn.disabled = True
         self.filter_box.add_widget(self.clear_btn)
@@ -85,22 +131,38 @@ class JukeboxGUI(BoxLayout):
         # Now Playing / Upcoming area
         self.middle_box = BoxLayout(orientation='vertical', size_hint=(.6, 1), spacing=10)
         self.add_widget(self.middle_box)
-        self.now_playing_label = Label(text='Now Playing', font_size=32, size_hint_y=None, height=50)
+        self.now_playing_label = Label(text='NOW PLAYING', 
+                                            font_size=40, 
+                                            color=(0.15, 0.15, 0.15, 1),
+                                            size_hint_y=None, 
+                                            height=50)
         self.middle_box.add_widget(self.now_playing_label)
         self.album_art = KivyImage(size_hint_y=None, height=200)
         self.middle_box.add_widget(self.album_art)
         self.info_label = Label(text='', size_hint_y=None, height=40)
         self.middle_box.add_widget(self.info_label)
         self.ctl_row = BoxLayout(orientation='horizontal', size_hint_y=None, height=50, spacing=10)
-        self.dance_btn = Button(text="Let's Dance!", size_hint=(None, None), width=160, height=44,
-                                on_press=self.handle_dance, background_color=(0.5,1,0.5,1))
-        self.skip_btn = Button(text="Skip Song", size_hint=(None, None), width=120, height=44,
-                               on_press=self.handle_skip, background_color=(1,0.4,0.4,1))
+        self.dance_btn = Button(text="Let's Dance!", 
+                                size_hint=(None, None), 
+                                width=160, 
+                                height=44,
+                                on_press=self.handle_dance, 
+                                background_color=(0.5,1,0.5,1))
+        self.skip_btn = Button(text="Skip Song", 
+                               size_hint=(None, None), 
+                               width=120, 
+                               height=44,
+                               on_press=self.handle_skip, 
+                               background_color=(1,0.4,0.4,1))
         self.ctl_row.add_widget(self.dance_btn)
         self.ctl_row.add_widget(self.skip_btn)
         self.middle_box.add_widget(self.ctl_row)
 
-        self.middle_box.add_widget(Label(text='Up Next:', font_size=20, size_hint_y=None, height=30))
+        self.middle_box.add_widget(Label(text='UP NEXT:', 
+                                         font_size=30, 
+                                         color=(0.15, 0.15, 0.15, 1),
+                                         size_hint_y=None, 
+                                         height=30))
         self.upcoming_scroll = ScrollView(size_hint=(1, .3))
         self.upcoming_grid = GridLayout(cols=1, spacing=5, size_hint_y=None)
         self.upcoming_grid.bind(minimum_height=self.upcoming_grid.setter('height'))
@@ -110,7 +172,12 @@ class JukeboxGUI(BoxLayout):
         # Song selection area
         self.select_box = BoxLayout(orientation='vertical', size_hint=(.2, 1), spacing=10)
         self.add_widget(self.select_box)
-        self.select_box.add_widget(Label(text='Select Songs', size_hint_y=None, height=30))
+        self.select_box.add_widget(CreamLabel(text='[b]SELECT A SONG[/b]', 
+                                        font_size=30,
+                                        markup=True,
+                                        color=(0.15, 0.15, 0.15, 1),
+                                        size_hint_y=None, 
+                                        height=30))
         self.songs_scroll = ScrollView()
         self.songs_grid = GridLayout(cols=1, spacing=5, size_hint_y=None)
         self.songs_grid.bind(minimum_height=self.songs_grid.setter('height'))
@@ -123,7 +190,11 @@ class JukeboxGUI(BoxLayout):
     def populate_genres(self, genres):
         self.genre_buttons_box.clear_widgets()
         all_btn = Button(
-            text="🎵 ALL GENRES", size_hint_y=None, height=40,
+            text="🎵 ALL", 
+            size_hint_y=None,
+            font_name="EmojiFont", 
+            height=40,
+            background_color=(1,0.4,0.4,1),
             on_press=lambda x: self.set_genre_filter('All'))
         self.genre_buttons_box.add_widget(all_btn)
         for genre in genres:
@@ -131,8 +202,11 @@ class JukeboxGUI(BoxLayout):
             btn = Button(
                 text=f"{emoji} {genre.title()}",
                 font_name="EmojiFont",
-                size_hint_y=None, height=40,
-                on_press=lambda instance, g=genre: self.set_genre_filter(g))
+                background_color=(1,0.4,0.4,1),
+                size_hint_y=None, 
+                height=40,
+                on_press=lambda instance, 
+                g=genre: self.set_genre_filter(g))
             self.genre_buttons_box.add_widget(btn)
 
     def set_artist_filter(self, artist):
@@ -151,7 +225,13 @@ class JukeboxGUI(BoxLayout):
 
     def set_genre_filter(self, genre):
         self.genre_filter = genre
-        self.genre_spinner.text = genre
+        # Visual feedback: highlight selected genre button
+        for btn in self.genre_buttons_box.children:
+            btn.background_color = (1,0.4,0.4,1)  
+            if btn.text.strip().endswith(genre.title()):
+                btn.background_color = (0.5, 1, 0.5, 1)  # Highlight color
+            else:
+                btn.background_color = (1,0.4,0.4,1)      # Normal color
         self.display_songs()
 
     def on_artist_selected(self, spinner, text):
@@ -171,26 +251,33 @@ class JukeboxGUI(BoxLayout):
             if not (self.artist_filter == 'All' or song.get('artist') == self.artist_filter):
                 continue
             btn = Button(
-                text=f"{self.emoji_for(song.get('genres', []))} {song.get('title')}\n{song.get('artist')}", font_name="EmojiFont", size_hint_y=None, height=60,
+                text=f"{self.emoji_for(song.get('genres', []))} {song.get('title')}\n{song.get('artist')}",
+                font_name="EmojiFont",
+                background_color=(0.53, 0.81, 0.98, 1),
+                size_hint_y=None,
+                height=60,
+                halign='center',   # <--- horizontal center
+                valign='middle',   # <--- vertical center (optional)
+                color=(1, 1, 1, 1),
                 on_press=lambda instance, s=song: self.handle_song_selection(s)
             )
+            # Enable multi-line center alignment by setting text_size and binding width
+            btn.text_size = (btn.width, None)
+            btn.bind(width=lambda instance, value: setattr(instance, 'text_size', (value, None)))
             self.songs_grid.add_widget(btn)
 
     def handle_song_selection(self, song):
         if self.select_song_cb:
             self.select_song_cb(song)
     def update_now_playing(self, song=None):
-        self.info_label = Label(
-                                text="",
-                                font_name="EmojiFont",  # Use the emoji font here
-                                size_hint_y=None,
-                                height=40
-                            )
         if not song:
             self.info_label.text = "No song playing"
             self.album_art.texture = None
             return
         self.info_label.text = f"{self.emoji_for(song.get('genres', []))} {song.get('artist', 'N/A')} – {song.get('title', 'N/A')}"
+        self.info_label.color = (0.15, 0.15, 0.15, 1)
+        self.info_label.font_name="EmojiFont"
+        self.info_label.font_size=30
         # --- Try direct album art first ---
         if song.get('album_art'):
             try:
@@ -226,13 +313,16 @@ class JukeboxGUI(BoxLayout):
     def update_upcoming_songs(self, upcoming):
         self.upcoming_grid.clear_widgets()
         if not upcoming:
-            self.upcoming_grid.add_widget(Label(text="No upcoming songs.", font_name="EmojiFont"))
+            self.upcoming_grid.add_widget(Label(text="No upcoming songs.", font_name="EmojiFont", font_size=20,color=(0.15, 0.15, 0.15, 1) ))
             return
         for i, song in enumerate(upcoming):
             self.upcoming_grid.add_widget(Label(
                 text=f"{i+1}. {self.emoji_for(song.get('genres', []))} {song.get('artist','N/A')} - {song.get('title','N/A')}",
-                size_hint_y=None, height=30,
-                font_name="EmojiFont"  # <-- Add this!
+                size_hint_y=None, 
+                font_size=20,
+                color=(0.15, 0.15, 0.15, 1),
+                height=30,
+                font_name="EmojiFont" 
             ))
 
     def handle_dance(self, instance):

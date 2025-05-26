@@ -14,6 +14,25 @@ import time
 import os
 import random
 import json
+from kivy.core.window import Window
+Window.clearcolor = (1, 0.99, 0.9, 1)  # A nice cream color (RGBA)
+
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.image import Image
+from utils import normalize_genre
+
+class RootWidget(FloatLayout):
+    def __init__(self, gui, **kwargs):
+        super().__init__(**kwargs)
+        self.bg_image = Image(
+            source="assets/images/background.png",
+            allow_stretch=True,
+            keep_ratio=False,
+            size_hint=(1, 1),
+            pos_hint={'x': 0, 'y': 0}
+        )
+        self.add_widget(self.bg_image)
+        self.add_widget(gui)
 
 MUSIC_DIR = 'mp3/'
 PLAYLISTS_DIR = 'playlists'
@@ -195,7 +214,7 @@ class JukeboxKivyApp(App):
         gui.display_songs()
         gui.update_upcoming_songs(get_upcoming_songs_for_display())
         # Do NOT start playback thread here
-        return gui
+        return RootWidget(gui)
 
 if __name__ == "__main__":
     JukeboxKivyApp().run()
