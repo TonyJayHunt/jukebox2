@@ -1,171 +1,201 @@
-import tkinter as tk
-from tkinter import messagebox
-import threading
-import time
-import os
-import random
 
+from kivy.config import Config
+Config.set('graphics', 'fullscreen', 'auto')
+Config.set('graphics', 'width', '1280')
+Config.set('graphics', 'height', '800')
+
+from kivy.app import App
 from gui import JukeboxGUI
 from player import JukeboxPlayer
 from song_library import get_all_mp3_files_with_metadata, is_abba_song
 from dialogs import confirm_dialog, confirm_dialog_error
-from utils import center_window
+import threading
+import time
+import os
+import random
+import json
 
-# Global Variables
-all_songs = []
-song_buttons = {}
-root = None
+MUSIC_DIR = 'mp3/'
+PLAYLISTS_DIR = 'playlists'
+
+all_songs_list = []
+all_songs_path_map = {}
 gui = None
 player = None
 
-def gui_update_now_playing(song):
-    global root, gui
-    if root and gui:
-        root.after(0, gui.update_now_playing, song)
-
-def gui_update_up_next():
-    global root, gui
-    if root and gui:
-        root.after(0, gui.update_up_next)
-
-def gui_update_upcoming_songs():
-    global root, gui
-    if root and gui:
-        root.after(0, gui.update_upcoming_songs, get_upcoming_songs())
-
-def select_song(song):
-    global all_songs, player, gui, root
-    song_name = song['title']
-    if song_name in player.played_songs:
-        confirm = confirm_dialog_error(root, f"'{song_name}' has already been played.")
-        return
-    if song_name in player.selected_songs:
-        confirm = confirm_dialog_error(root, f"'{song_name}' has already been selected.")
-        return
-
-    confirm = confirm_dialog(root, f"Are you sure you want to select '{song_name}'?")
-    if confirm:
-        if is_abba_song(song):
-            confirm_abba = confirm_dialog(
-                root, "Are you really sure you want to play Abba at this wedding?")
-            if confirm_abba:
-                threading.Thread(target=player.play_song_immediately, args=(song,)).start()
-                player.selected_songs.add(song_name)
-                player.played_songs.add(song_name)
-                def remove_button():
-                    gui.hidden_song_keys.add(song['key'])
-                    btn = gui.song_buttons.pop(song['key'], None)
-                    if btn: btn.destroy()
-                root.after(0, remove_button)
-                if song in player.default_playlist:
-                    player.default_playlist.remove(song)
-                if song in player.Special_playlist:
-                    player.Special_playlist.remove(song)
-                gui.update_up_next()
-                gui.update_upcoming_songs(get_upcoming_songs())
-        else:
-            player.primary_playlist.append(song)
-            player.selected_songs.add(song_name)
-            def remove_button():
-                btn = gui.song_buttons.pop(song['key'], None)
-                if btn: btn.destroy()
-            root.after(0, remove_button)
-            if song in player.default_playlist:
-                player.default_playlist.remove(song)
-            if song in player.Special_playlist:
-                player.Special_playlist.remove(song)
-            if len(player.primary_playlist) == 1:
-                gui.update_up_next()
-            gui.artist_filter_var.set('All')
-            gui.genre_filter_var.set('All')
-            gui.display_songs()
-            gui.update_upcoming_songs(get_upcoming_songs())
-
-def get_upcoming_songs():
+def get_upcoming_songs_for_display():
     global player
-    primary = list(player.primary_playlist)
-    default = list(player.default_playlist)
-    Special = list(player.Special_playlist)
-    out = []
-    song_counter = player.song_counter
-    while len(out) < 10 and (primary or default or Special):
-        if primary:
-            song = primary.pop(0)
-            out.append(song)
-            song_counter += 1
-        elif song_counter % 5 == 0 and song_counter != 0 and Special:
-            song = Special.pop(0)
-            out.append(song)
-            song_counter += 1
-        elif default:
-            song = default.pop(0)
-            out.append(song)
-            song_counter += 1
+    if not player:
+        return []
+    sim_primary_playlist = list(player.primary_playlist)
+    sim_special_playlist = list(player.Special_playlist)
+    sim_default_playlist = list(player.default_playlist)
+    upcoming_list_for_gui = []
+    sim_song_counter = player.song_counter
+    while len(upcoming_list_for_gui) < 10:
+        next_song_candidate = None
+        is_special_slot = (sim_song_counter % 5 == 0 and sim_song_counter != 0)
+        if is_special_slot and sim_special_playlist:
+            next_song_candidate = sim_special_playlist.pop(0)
+        elif sim_primary_playlist:
+            next_song_candidate = sim_primary_playlist.pop(0)
+        elif sim_special_playlist:
+            next_song_candidate = sim_special_playlist.pop(0)
+        elif sim_default_playlist:
+            next_song_candidate = sim_default_playlist.pop(0)
         else:
             break
-    return out
+        if next_song_candidate:
+            upcoming_list_for_gui.append(next_song_candidate)
+            sim_song_counter += 1
+    return upcoming_list_for_gui
 
-def start_playback():
+def select_song(song_to_select):
+    global player, gui
+    song_name = song_to_select['title']
+
+    if song_name in player.played_songs:
+        confirm_dialog_error(None, f"'{song_name}' has already been played.")
+        return
+
+    if song_name in player.selected_songs and song_to_select not in player.primary_playlist:
+        is_already_in_primary = any(s['key'] == song_to_select['key'] for s in player.primary_playlist)
+        if is_already_in_primary:
+            confirm_dialog_error(None, f"'{song_name}' is already in the upcoming song queue.")
+            return
+
+    confirmation_message = f"Are you sure you want to select '{song_name}'?"
+    if is_abba_song(song_to_select):
+        confirmation_message = "Are you really sure you want to play Abba at this wedding?"
+
+    def after_confirm(user_confirmed):
+        if user_confirmed:
+            if is_abba_song(song_to_select):
+                threading.Thread(target=player.play_song_immediately, args=(song_to_select,)).start()
+            else:
+                player.primary_playlist.append(song_to_select)
+                player.selected_songs.add(song_name)
+            if hasattr(gui, 'hidden_song_keys'):
+                gui.hidden_song_keys.append(song_to_select['key'])
+            if song_to_select in player.default_playlist:
+                player.default_playlist.remove(song_to_select)
+            if hasattr(gui, 'display_songs'):
+                gui.display_songs()
+            gui.update_upcoming_songs(get_upcoming_songs_for_display())
+
+    confirm_dialog(None, confirmation_message, after_confirm)
+
+
+
+def start_playback_thread():
     global player
-    if not hasattr(player, 'play_thread') or not player.play_thread.is_alive():
-        player.play_thread = threading.Thread(target=player.play_songs)
-        player.play_thread.daemon = True
-        player.play_thread.start()
+    if player and (not hasattr(player, 'play_thread') or not player.play_thread.is_alive()):
+        main_play_method = getattr(player, 'play_songs', None)
+        if main_play_method:
+            player.play_thread = threading.Thread(target=main_play_method, daemon=True)
+            player.play_thread.start()
+        else:
+            print("Error: Could not find main playback method in player.")
 
-def main():
-    global root, gui, player, all_songs
+def load_song_filenames_from_json(playlist_filename):
+    filepath = os.path.join(PLAYLISTS_DIR, playlist_filename)
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"Warning: Playlist file '{filepath}' not found.")
+    except json.JSONDecodeError:
+        print(f"Warning: Error decoding JSON from '{filepath}'.")
+    return []
 
-    root = tk.Tk()
-    root.title("Jukebox")
-    root.attributes('-fullscreen', True)
-    def exit_fullscreen(event=None):
-        root.attributes('-fullscreen', False)
-    root.bind('<Escape>', exit_fullscreen)
+def map_filenames_to_song_objects(filenames, song_path_map):
+    loaded_songs = []
+    for fname_in_playlist in filenames:
+        normalized_playlist_fname = os.path.join(MUSIC_DIR, fname_in_playlist).replace("\\", "/")
+        if normalized_playlist_fname in song_path_map:
+            loaded_songs.append(song_path_map[normalized_playlist_fname])
+        else:
+            found_song = None
+            for song_obj in song_path_map.values():
+                if os.path.basename(song_obj['path']) == fname_in_playlist:
+                    found_song = song_obj
+                    break
+            if found_song:
+                loaded_songs.append(found_song)
+            else:
+                print(f"Warning: Song '{fname_in_playlist}' from playlist not found in music library.")
+    return loaded_songs
 
-    all_songs = get_all_mp3_files_with_metadata('mp3/')
-    for idx, song in enumerate(all_songs):
-        song['key'] = idx
-
-    # Shuffle default playlist if not already loaded
-    non_Special = [s for s in all_songs if 'christmas' not in s['genres']]
-    random.shuffle(non_Special)
-    Special_songs = [s for s in all_songs if 'special' in s['genres']]
-
-    player = JukeboxPlayer(
-        root,
-        gui_update_now_playing,
-        gui_update_up_next,
-        gui_update_upcoming_songs,
-        start_playback_callback=start_playback
-    )
-    player.default_playlist = non_Special
-    player.Special_playlist = Special_songs
-
-    gui = JukeboxGUI(root, select_song, player.play_special_song, player)
-
-    gui.all_songs = all_songs
-
-    all_genres = set()
-    for song in all_songs:
-        all_genres.update(song['genres'])
-    all_genres.discard('unknown genre')
-    all_genres.discard('special')
-    gui.populate_genre_buttons(sorted(list(all_genres)))
-
-    artist_songs = {}
-    for song in all_songs:
-        artist = song['artist']
-        if artist not in artist_songs:
-            artist_songs[artist] = []
-        artist_songs[artist].append(song)
-    valid_artists = [artist for artist, songs in artist_songs.items()
-                     if any('special' not in song['genres'] for song in songs)]
-    gui.populate_artist_combobox(sorted(valid_artists))
-
-    gui.display_songs()
-    gui.update_upcoming_songs(get_upcoming_songs())
-
-    root.mainloop()
+class JukeboxKivyApp(App):
+    def build(self):
+        global gui, player, all_songs_list, all_songs_path_map
+        all_songs_list.clear()
+        all_songs_path_map.clear()
+        raw_songs_from_library = get_all_mp3_files_with_metadata(MUSIC_DIR)
+        for idx, song_data in enumerate(raw_songs_from_library):
+            song_data['key'] = idx
+            all_songs_list.append(song_data)
+            normalized_path = song_data['path'].replace("\\", "/")
+            all_songs_path_map[normalized_path] = song_data
+        default_playlist_filenames = load_song_filenames_from_json('default_playlist.json')
+        special_playlist_filenames = load_song_filenames_from_json('Special_playlist.json')
+        songs_from_special_json = map_filenames_to_song_objects(special_playlist_filenames, all_songs_path_map)
+        christmas_song_paths = {s['path'] for s in songs_from_special_json}
+        for song_obj in all_songs_list:
+            if 'christmas' in [g.lower() for g in song_obj.get('genres', [])]:
+                christmas_song_paths.add(song_obj['path'])
+                is_already_in_special_list = any(s_obj['key'] == song_obj['key'] for s_obj in songs_from_special_json)
+                if not is_already_in_special_list:
+                    songs_from_special_json.append(song_obj)
+        initial_primary_queue_songs_raw = map_filenames_to_song_objects(default_playlist_filenames, all_songs_path_map)
+        initial_primary_queue_final = [
+            s for s in initial_primary_queue_songs_raw if s['path'] not in christmas_song_paths
+        ]
+        def gui_update_now_playing(song_data):
+            if gui:
+                gui.update_now_playing(song_data)
+        def gui_update_upcoming_songs_display():
+            if gui:
+                gui.update_upcoming_songs(get_upcoming_songs_for_display())
+        player_instance = JukeboxPlayer(
+            gui_update_now_playing,
+            gui_update_upcoming_songs_display,
+            gui_update_upcoming_songs_display,
+            start_playback_callback=start_playback_thread
+        )
+        player_instance.primary_playlist = list(initial_primary_queue_final)
+        player_instance.Special_playlist = list(songs_from_special_json)
+        paths_in_initial_primary = {s['path'] for s in player_instance.primary_playlist}
+        fallback_candidate_songs = [
+            s for s in all_songs_list
+            if s['path'] not in christmas_song_paths and s['path'] not in paths_in_initial_primary
+        ]
+        random.shuffle(fallback_candidate_songs)
+        player_instance.default_playlist = fallback_candidate_songs
+        dance_button_callback = getattr(player_instance, 'play_special_song', None)
+        if dance_button_callback is None:
+            print("Warning: player.play_special_song method not found! 'Let's Dance' button may not work.")
+            dance_button_callback = lambda: print("'Let's Dance' callback missing in player.")
+        global player
+        player = player_instance
+        global gui
+        gui = JukeboxGUI()
+        gui.all_songs = all_songs_list
+        gui.select_song_cb = select_song
+        gui.dance_cb = lambda: [dance_button_callback(), start_playback_thread()]
+        gui.player = player
+        all_genres_in_library = set()
+        for song in all_songs_list:
+            all_genres_in_library.update(g.lower() for g in song.get('genres', []))
+        all_genres_in_library.discard('unknown genre')
+        all_genres_in_library.discard('special')
+        gui.populate_genres(sorted(list(all_genres_in_library)))
+        all_artists_in_library = sorted(list(set(s.get('artist', 'Unknown Artist') for s in all_songs_list)))
+        gui.populate_artists(all_artists_in_library)
+        gui.display_songs()
+        gui.update_upcoming_songs(get_upcoming_songs_for_display())
+        # Do NOT start playback thread here
+        return gui
 
 if __name__ == "__main__":
-    main()
+    JukeboxKivyApp().run()

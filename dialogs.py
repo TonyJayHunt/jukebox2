@@ -1,93 +1,38 @@
-import tkinter as tk
-from utils import center_window  # Import center_window
-def confirm_dialog(parent, message):
-    """Custom Yes/No confirmation dialog."""
-    response = [False]
-    dialog = tk.Toplevel(parent)
-    dialog.title("Confirm")
-    dialog.geometry("400x200")
-    tk.Label(dialog, text=message, font=('Helvetica', 16),
-             wraplength=350, justify='center').pack(pady=20)
-    btn_frame = tk.Frame(dialog)
-    btn_frame.pack(pady=10)
 
-    yes_btn = tk.Button(btn_frame, text="Yes",
-                        command=lambda: _set_response_and_destroy(dialog,
-                                                                response, True),
-                        width=12, height=2, font=('Helvetica', 14))
-    yes_btn.pack(side='left', padx=20, pady=10)
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
 
-    no_btn = tk.Button(btn_frame, text="No",
-                       command=lambda: _set_response_and_destroy(dialog,
-                                                               response, False),
-                       width=12, height=2, font=('Helvetica', 14))
-    no_btn.pack(side='left', padx=20, pady=10)
+def confirm_dialog(parent, message, callback):
+    layout = BoxLayout(orientation='vertical', spacing=10, padding=15)
+    layout.add_widget(Label(text=message, halign='center', valign='middle'))
+    button_layout = BoxLayout(orientation='horizontal', spacing=15, size_hint_y=None, height=50)
+    btn_yes = Button(text="Yes")
+    btn_no = Button(text="No")
+    button_layout.add_widget(btn_yes)
+    button_layout.add_widget(btn_no)
+    layout.add_widget(button_layout)
+    popup = Popup(title="Confirm", content=layout, size_hint=(0.6, 0.4), auto_dismiss=False)
+    def on_yes(instance):
+        popup.dismiss()
+        callback(True)
+    def on_no(instance):
+        popup.dismiss()
+        callback(False)
+    btn_yes.bind(on_release=on_yes)
+    btn_no.bind(on_release=on_no)
+    popup.open()
 
-    dialog.transient(parent)
-    dialog.grab_set()
-    center_window(dialog)
-    parent.wait_window(dialog)
-    return response[0]
-
-def confirm_dialog_error(parent, message):
-    """Custom Yes/No confirmation dialog."""
-    response = [False]
-    dialog = tk.Toplevel(parent)
-    dialog.title("Confirm")
-    dialog.geometry("400x200")
-    tk.Label(dialog, text=message, font=('Helvetica', 16),
-             wraplength=350, justify='center').pack(pady=20)
-    btn_frame = tk.Frame(dialog)
-    btn_frame.pack(pady=10)
-
-    no_btn = tk.Button(btn_frame, text="OK",
-                       command=lambda: _set_response_and_destroy(dialog,
-                                                               response, False),
-                       width=12, height=2, font=('Helvetica', 14))
-    no_btn.pack(side='left', padx=20, pady=10)
-
-    dialog.transient(parent)
-    dialog.grab_set()
-    center_window(dialog)
-    parent.wait_window(dialog)
-    return response[0]
-
-def _set_response_and_destroy(dialog, response, value):
-    response[0] = value
-    dialog.destroy()
-
-
-def password_dialog(parent, prompt):
-    """Custom password input dialog (placeholder for keyboard)."""
-
-    response = [None]
-    dialog = tk.Toplevel(parent)
-    dialog.title("Password Required")
-    dialog.geometry("400x200")
-    tk.Label(dialog, text=prompt, font=('Helvetica', 16),
-             wraplength=350, justify='center').pack(pady=10)
-    entry_var = tk.StringVar()
-    entry = tk.Entry(dialog, textvariable=entry_var, show='*',
-                     font=('Helvetica', 16))
-    entry.pack(pady=10)
-
-    ok_btn = tk.Button(dialog, text="OK",
-                        command=lambda: _get_password_and_destroy(dialog,
-                                                                response,
-                                                                entry_var.get()),
-                        width=12, height=2, font=('Helvetica', 14))
-    ok_btn.pack(pady=20)
-
-    # Placeholder for on-screen keyboard integration
-    # ... (Keyboard code or external widget here)
-
-    dialog.transient(parent)
-    dialog.grab_set()
-    center_window(dialog)
-    parent.wait_window(dialog)
-    return response[0]
-
-
-def _get_password_and_destroy(dialog, response, password):
-    response[0] = password
-    dialog.destroy()
+def confirm_dialog_error(parent, message, callback=None):
+    layout = BoxLayout(orientation='vertical', spacing=10, padding=15)
+    layout.add_widget(Label(text=message, halign='center', valign='middle'))
+    btn_ok = Button(text="OK", size_hint_y=None, height=50)
+    layout.add_widget(btn_ok)
+    popup = Popup(title="Error", content=layout, size_hint=(0.6, 0.4), auto_dismiss=False)
+    def on_ok(instance):
+        popup.dismiss()
+        if callback:
+            callback()
+    btn_ok.bind(on_release=on_ok)
+    popup.open()
