@@ -246,7 +246,7 @@ class JukeboxGUI(BoxLayout):
             if song.get('key') in self.hidden_song_keys: continue
             if song.get('title') in self.played_songs: continue
             if song.get('title') in self.selected_songs: continue
-            if not (self.genre_filter == 'All' or self.genre_filter.lower() in [g.lower() for g in song.get('genres',[])]):
+            if not (self.genre_filter == 'All' or self.genre_filter in song.get('genres', [])):
                 continue
             if not (self.artist_filter == 'All' or song.get('artist') == self.artist_filter):
                 continue

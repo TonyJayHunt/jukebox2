@@ -19,7 +19,7 @@ Window.clearcolor = (1, 0.99, 0.9, 1)  # A nice cream color (RGBA)
 
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
-from utils import normalize_genre
+from utils import normalize_genre, MAIN_GENRES
 
 class RootWidget(FloatLayout):
     def __init__(self, gui, **kwargs):
@@ -153,6 +153,11 @@ class JukeboxKivyApp(App):
         raw_songs_from_library = get_all_mp3_files_with_metadata(MUSIC_DIR)
         for idx, song_data in enumerate(raw_songs_from_library):
             song_data['key'] = idx
+            # Normalize all genres
+            if 'genres' in song_data:
+                song_data['genres'] = [normalize_genre(g) for g in song_data['genres']]
+            else:
+                song_data['genres'] = ['Pop']
             all_songs_list.append(song_data)
             normalized_path = song_data['path'].replace("\\", "/")
             all_songs_path_map[normalized_path] = song_data
@@ -208,7 +213,7 @@ class JukeboxKivyApp(App):
             all_genres_in_library.update(g.lower() for g in song.get('genres', []))
         all_genres_in_library.discard('unknown genre')
         all_genres_in_library.discard('special')
-        gui.populate_genres(sorted(list(all_genres_in_library)))
+        gui.populate_genres(MAIN_GENRES)
         all_artists_in_library = sorted(list(set(s.get('artist', 'Unknown Artist') for s in all_songs_list)))
         gui.populate_artists(all_artists_in_library)
         gui.display_songs()

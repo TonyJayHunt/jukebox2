@@ -20,9 +20,10 @@ GENRE_MAPPING = {
     'reggae': 'Pop',
     'punk': 'Rock',
     'rock': 'Rock',
-    'alternative rock': 'Rock'
+    'alternative rock': 'Rock',
+    'Special': 'Special'
 }
-MAIN_GENRES = ['Britpop', 'Christmas', 'Country', 'Dance', 'Hip-Hop', 'Indie', 'Pop', 'Rock']
+MAIN_GENRES = ['Britpop', 'Christmas', 'Country', 'Dance', 'Hip-Hop', 'Indie', 'Pop', 'Rock', 'Special']
 
 def normalize_genre(genre):
     """Map any genre to your canonical display genre or 'Pop'."""
