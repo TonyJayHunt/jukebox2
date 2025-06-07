@@ -1,5 +1,3 @@
-import tkinter as tk
-
 
 GENRE_MAPPING = {
     'britpop': 'Britpop',
@@ -21,22 +19,20 @@ GENRE_MAPPING = {
     'punk': 'Rock',
     'rock': 'Rock',
     'alternative rock': 'Rock',
-    'Special': 'Special'
+    'Special': 'Special',
+    'hip hop' : 'Hip-Hop',
+    'x-mas'   : 'Christmas',
+    'alt rock': 'Rock'
 }
-MAIN_GENRES = ['Britpop', 'Christmas', 'Country', 'Dance', 'Hip-Hop', 'Indie', 'Pop', 'Rock', 'Special']
+MAIN_GENRES = ['Britpop', 'Christmas', 'Country', 'Dance', 'Hip-Hop', 'Indie', 'Pop', 'Rock']
 
 def normalize_genre(genre):
     """Map any genre to your canonical display genre or 'Pop'."""
     genre_clean = genre.strip().lower()
     return GENRE_MAPPING.get(genre_clean, 'Pop')
 
-def center_window(window):
-    """Centers a Tkinter window."""
-    window.update_idletasks()
-    width = window.winfo_width()
-    height = window.winfo_height()
-    screen_width = window.winfo_screenwidth()
-    screen_height = window.winfo_screenheight()
-    x = (screen_width // 2) - (width // 2)
-    y = (screen_height // 2) - (height // 2)
-    window.geometry(f'{width}x{height}+{x}+{y}')
+def _index_after_last_user_pick(pl):
+    for idx, s in enumerate(pl):
+        if s.get('source') != 'user':   # your code may use a flag/key; use any test you like
+            return idx
+    return len(pl)

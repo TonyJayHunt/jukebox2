@@ -210,6 +210,7 @@ class JukeboxGUI(BoxLayout):
             self.genre_buttons_box.add_widget(btn)
 
     def set_artist_filter(self, artist):
+        self.genre_filter = 'All'
         self.artist_filter = artist
         self.artist_spinner.text = artist
 
@@ -221,10 +222,14 @@ class JukeboxGUI(BoxLayout):
                 self.clear_btn.opacity = 0
                 self.clear_btn.disabled = True
 
+        self.genre_buttons_box.children.background_color = (1,0.4,0.4,1)
+
         self.display_songs()
 
     def set_genre_filter(self, genre):
         self.genre_filter = genre
+        self.artist_filter = 'All'
+        self.artist_spinner.text = 'All'
         # Visual feedback: highlight selected genre button
         for btn in self.genre_buttons_box.children:
             btn.background_color = (1,0.4,0.4,1)  
@@ -236,13 +241,16 @@ class JukeboxGUI(BoxLayout):
 
     def on_artist_selected(self, spinner, text):
         self.set_artist_filter(text)
+        
 
     def on_genre_selected(self, spinner, text):
         self.set_genre_filter(text)
+        
 
     def display_songs(self):
         self.songs_grid.clear_widgets()
         for song in self.all_songs:
+            if 'Special' in song.get('genres', []): continue
             if song.get('key') in self.hidden_song_keys: continue
             if song.get('title') in self.played_songs: continue
             if song.get('title') in self.selected_songs: continue
@@ -269,6 +277,16 @@ class JukeboxGUI(BoxLayout):
     def handle_song_selection(self, song):
         if self.select_song_cb:
             self.select_song_cb(song)
+        self.artist_filter = 'All'
+        self.genre_filter = 'All'
+        self.artist_spinner.text = 'All'
+        for btn in self.genre_buttons_box.children:
+            btn.background_color = (1,0.4,0.4,1)
+        self.display_songs()
+    
+    
+    
+    
     def update_now_playing(self, song=None):
         if not song:
             self.info_label.text = "No song playing"

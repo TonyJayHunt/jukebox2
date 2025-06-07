@@ -19,7 +19,7 @@ Window.clearcolor = (1, 0.99, 0.9, 1)  # A nice cream color (RGBA)
 
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
-from utils import normalize_genre, MAIN_GENRES
+from utils import normalize_genre, MAIN_GENRES, _index_after_last_user_pick
 
 class RootWidget(FloatLayout):
     def __init__(self, gui, **kwargs):
@@ -49,24 +49,32 @@ def get_upcoming_songs_for_display():
     sim_primary_playlist = list(player.primary_playlist)
     sim_special_playlist = list(player.Special_playlist)
     sim_default_playlist = list(player.default_playlist)
+    sim_song_counter = player.song_counter 
+
     upcoming_list_for_gui = []
-    sim_song_counter = player.song_counter
+
     while len(upcoming_list_for_gui) < 10:
-        next_song_candidate = None
         is_special_slot = (sim_song_counter % 5 == 0 and sim_song_counter != 0)
+        next_song_candidate = None
+
         if is_special_slot and sim_special_playlist:
             next_song_candidate = sim_special_playlist.pop(0)
         elif sim_primary_playlist:
             next_song_candidate = sim_primary_playlist.pop(0)
-        elif sim_special_playlist:
-            next_song_candidate = sim_special_playlist.pop(0)
         elif sim_default_playlist:
             next_song_candidate = sim_default_playlist.pop(0)
+        elif sim_special_playlist:
+            next_song_candidate = sim_special_playlist.pop(0)
         else:
             break
-        if next_song_candidate:
-            upcoming_list_for_gui.append(next_song_candidate)
-            sim_song_counter += 1
+
+        # Optional: just to be safe, don't queue duplicates (can be omitted if already managed)
+        if next_song_candidate in upcoming_list_for_gui:
+            continue
+
+        upcoming_list_for_gui.append(next_song_candidate)
+        sim_song_counter += 1
+
     return upcoming_list_for_gui
 
 def select_song(song_to_select):
@@ -92,12 +100,16 @@ def select_song(song_to_select):
             if is_abba_song(song_to_select):
                 threading.Thread(target=player.play_song_immediately, args=(song_to_select,)).start()
             else:
-                player.primary_playlist.append(song_to_select)
+                # Insert at the right place: after all previously selected songs
+                selected_count = sum(1 for s in player.primary_playlist if s['title'] in player.selected_songs)
+                player.primary_playlist.insert(selected_count, song_to_select)
                 player.selected_songs.add(song_name)
             if hasattr(gui, 'hidden_song_keys'):
                 gui.hidden_song_keys.append(song_to_select['key'])
             if song_to_select in player.default_playlist:
                 player.default_playlist.remove(song_to_select)
+            if song_to_select in player.Special_playlist:
+                player.Special_playlist.remove(song_to_select)
             if hasattr(gui, 'display_songs'):
                 gui.display_songs()
             gui.update_upcoming_songs(get_upcoming_songs_for_display())
@@ -163,17 +175,21 @@ class JukeboxKivyApp(App):
             all_songs_path_map[normalized_path] = song_data
         default_playlist_filenames = load_song_filenames_from_json('default_playlist.json')
         special_playlist_filenames = load_song_filenames_from_json('Special_playlist.json')
+       # print(f"special_playlist_filenames loaded: {special_playlist_filenames}")
         songs_from_special_json = map_filenames_to_song_objects(special_playlist_filenames, all_songs_path_map)
-        christmas_song_paths = {s['path'] for s in songs_from_special_json}
+        for s in songs_from_special_json:
+            s['genres'] = ['Special']
+       # print(f"Mapped songs_from_special_json: {[s['title'] for s in songs_from_special_json]}")
+        special_song_paths = {s['path'] for s in songs_from_special_json}
         for song_obj in all_songs_list:
-            if 'christmas' in [g.lower() for g in song_obj.get('genres', [])]:
-                christmas_song_paths.add(song_obj['path'])
+            if 'special' in [g.lower() for g in song_obj.get('genres', [])]:
+                special_song_paths.add(song_obj['path'])
                 is_already_in_special_list = any(s_obj['key'] == song_obj['key'] for s_obj in songs_from_special_json)
                 if not is_already_in_special_list:
                     songs_from_special_json.append(song_obj)
         initial_primary_queue_songs_raw = map_filenames_to_song_objects(default_playlist_filenames, all_songs_path_map)
         initial_primary_queue_final = [
-            s for s in initial_primary_queue_songs_raw if s['path'] not in christmas_song_paths
+            s for s in initial_primary_queue_songs_raw if s['path'] not in special_song_paths
         ]
         def gui_update_now_playing(song_data):
             if gui:
@@ -189,10 +205,14 @@ class JukeboxKivyApp(App):
         )
         player_instance.primary_playlist = list(initial_primary_queue_final)
         player_instance.Special_playlist = list(songs_from_special_json)
+        # print("\n---- Special_playlist after init ----")
+        # for s in player_instance.Special_playlist:
+        #     print(f"  [Special] {s['title']} | genres: {s['genres']} | path: {s['path']}")
+        # print("-------------------------------------\n")
         paths_in_initial_primary = {s['path'] for s in player_instance.primary_playlist}
         fallback_candidate_songs = [
             s for s in all_songs_list
-            if s['path'] not in christmas_song_paths and s['path'] not in paths_in_initial_primary
+            if s['path'] not in special_song_paths and s['path'] not in paths_in_initial_primary
         ]
         random.shuffle(fallback_candidate_songs)
         player_instance.default_playlist = fallback_candidate_songs
