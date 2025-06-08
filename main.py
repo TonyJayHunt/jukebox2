@@ -198,12 +198,32 @@ class JukeboxKivyApp(App):
             dance_cb=lambda: [player.play_special_song(), start_playback_thread()]
         )
         
-        # Populate GUI filters with all unique artists and genres
+        # --- Populate GUI filters with available artists and genres ---
+        
+        # First, determine which song titles are currently unavailable.
+        played_titles = player.played_songs
+        primary_queued_titles = {song['title'] for song in player.primary_playlist}
+        special_queued_titles = {song['title'] for song in player.Special_playlist}
+        unavailable_titles = played_titles.union(primary_queued_titles, special_queued_titles)
+
+        # Get all unique artists from the entire library.
         all_artists_in_library = set()
         for song in all_songs_list:
             all_artists_in_library.update(song.get('artists', []))
+
+        # Now, filter this list to include only artists with at least one available song.
+        available_artists = []
+        for artist in all_artists_in_library:
+            # Check if this artist has any song that is NOT in the unavailable list.
+            has_available_song = any(
+                song['title'] not in unavailable_titles 
+                for song in all_songs_list if artist in song.get('artists', [])
+            )
+            if has_available_song:
+                available_artists.append(artist)
         
-        gui.populate_artists(sorted(list(all_artists_in_library)))
+        # Populate the GUI with the filtered list of artists and all main genres.
+        gui.populate_artists(sorted(available_artists))
         gui.populate_genres(MAIN_GENRES)
 
         # 5. Perform initial GUI updates

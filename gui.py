@@ -11,6 +11,7 @@ from kivy.properties import StringProperty, ListProperty, ObjectProperty
 from kivy.core.text import LabelBase
 from kivy.core.image import Image as CoreImage
 from kivy.graphics import Color, Rectangle
+from kivy.uix.widget import Widget
 
 LabelBase.register(name="EmojiFont", fn_regular=".\\assets\\font\\seguiemj.ttf")
 
@@ -84,6 +85,7 @@ class JukeboxGUI(BoxLayout):
         self.middle_box.add_widget(self.ctl_row)
 
         self.middle_box.add_widget(Label(text='UP NEXT:', font_size=30, color=(0.15, 0.15, 0.15, 1), size_hint_y=None, height=30))
+        self.middle_box.add_widget(Widget(size_hint_y=None, height=10))
         self.upcoming_scroll = ScrollView(size_hint=(1, .3))
         self.upcoming_grid = GridLayout(cols=1, spacing=5, size_hint_y=None)
         self.upcoming_grid.bind(minimum_height=self.upcoming_grid.setter('height'))
@@ -158,22 +160,44 @@ class JukeboxGUI(BoxLayout):
 
     def display_songs(self):
         self.songs_grid.clear_widgets()
-        for song in self.all_songs:
-            # Apply filters
-            if 'Special' in song.get('genres', []): continue
-            if song.get('key') in self.hidden_song_keys: continue
-            if song.get('title') in self.played_songs: continue
-            if song.get('title') in self.selected_songs: continue
-            if not (self.genre_filter == 'All' or self.genre_filter in song.get('genres', [])): continue
-            if not (self.artist_filter == 'All' or self.artist_filter in song.get('artists', [])): continue
 
+        # --- Create a comprehensive set of all song titles to hide ---
+        # 1. Get titles of songs already played.
+        played_titles = self.player.played_songs
+
+        # 2. Get titles of songs in the active queues (user-selected, and special).
+        primary_queued_titles = {song['title'] for song in self.player.primary_playlist}
+        special_queued_titles = {song['title'] for song in self.player.Special_playlist}
+        
+        # 3. Combine them all into a single set for an efficient lookup.
+        titles_to_hide = played_titles.union(primary_queued_titles, special_queued_titles)
+
+        for song in self.all_songs:
+            # --- Apply all filters ---
+
+            # 1. Hide songs that are played or already in an active queue.
+            if song.get('title') in titles_to_hide:
+                continue
+
+            # 2. Exclude songs from the 'Special' genre from the main list.
+            if 'Special' in song.get('genres', []):
+                continue
+            
+            # 3. Apply the user-selected genre and artist filters.
+            if not (self.genre_filter == 'All' or self.genre_filter in song.get('genres', [])):
+                continue
+            if not (self.artist_filter == 'All' or self.artist_filter in song.get('artists', [])):
+                continue
+
+            # If the song passes all filters, create and add its button.
             btn = Button(
                 text=f"{self.emoji_for(song.get('genres', []))} {song.get('title')}\n{self._get_joined_artists(song)}",
                 font_name="EmojiFont", background_color=(0.53, 0.81, 0.98, 1),
                 size_hint_y=None, height=60, halign='center', valign='middle', color=(1, 1, 1, 1), # <-- This is now white
                 on_press=lambda instance, s=song: self.handle_song_selection(s)
             )
-            btn.bind(width=lambda instance, value: setattr(instance, 'text_size', (value, None))) # Enable multi-line center alignment
+            # Enable multi-line center alignment by binding text_size
+            btn.bind(width=lambda instance, value: setattr(instance, 'text_size', (value, None)))
             self.songs_grid.add_widget(btn)
 
     def handle_song_selection(self, song):
@@ -188,6 +212,7 @@ class JukeboxGUI(BoxLayout):
             return
         
         self.info_label.text = f"{self.emoji_for(song.get('genres', []))} {self._get_joined_artists(song)} – {song.get('title', 'N/A')}"
+        self.info_label.font_size = 35 if len(self.info_label.text) < 50 else 25
         
         # Try to load embedded album art first
         if song.get('album_art'):
@@ -222,7 +247,7 @@ class JukeboxGUI(BoxLayout):
         for i, song in enumerate(upcoming):
             self.upcoming_grid.add_widget(Label(
                 text=f"{i+1}. {self.emoji_for(song.get('genres', []))} {self._get_joined_artists(song)} - {song.get('title','N/A')}",
-                size_hint_y=None, font_size=20, color=(0.15, 0.15, 0.15, 1), height=30, font_name="EmojiFont" 
+                size_hint_y=None, font_size=35, color=(0.15, 0.15, 0.15, 1), height=30, font_name="EmojiFont" 
             ))
 
     def handle_dance(self, instance):
