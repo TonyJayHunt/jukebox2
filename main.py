@@ -83,12 +83,14 @@ def select_song(song_to_select):
 
     if song_name in player.played_songs:
         confirm_dialog_error(None, f"'{song_name}' has already been played.")
+        JukeboxGUI.clear_filter()
         return
 
     if song_name in player.selected_songs and song_to_select not in player.primary_playlist:
         is_already_in_primary = any(s['key'] == song_to_select['key'] for s in player.primary_playlist)
         if is_already_in_primary:
             confirm_dialog_error(None, f"'{song_name}' is already in the upcoming song queue.")
+            JukeboxGUI.clear_filter()
             return
 
     confirmation_message = f"Are you sure you want to select '{song_name}'?"

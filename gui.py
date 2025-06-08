@@ -184,6 +184,17 @@ class JukeboxGUI(BoxLayout):
         self.songs_scroll.add_widget(self.songs_grid)
         self.select_box.add_widget(self.songs_scroll)
 
+    def clear_filter(self):
+        self.artist_filter = 'All'
+        self.genre_filter = 'All'
+        self.artist_spinner.text = 'All'
+        for btn in self.genre_buttons_box.children:
+            btn.background_color = (1,0.4,0.4,1)
+        if hasattr(self, 'clear_btn'):
+            self.clear_btn.opacity = 0
+            self.clear_btn.disabled = True
+        self.display_songs()
+
     def populate_artists(self, artists):
         self.artist_spinner.values = ['All'] + artists
 
@@ -222,8 +233,8 @@ class JukeboxGUI(BoxLayout):
                 self.clear_btn.opacity = 0
                 self.clear_btn.disabled = True
 
-        self.genre_buttons_box.children.background_color = (1,0.4,0.4,1)
-
+        for btn in self.genre_buttons_box.children:
+            btn.background_color = (1,0.4,0.4,1)
         self.display_songs()
 
     def set_genre_filter(self, genre):
@@ -277,13 +288,9 @@ class JukeboxGUI(BoxLayout):
     def handle_song_selection(self, song):
         if self.select_song_cb:
             self.select_song_cb(song)
-        self.artist_filter = 'All'
-        self.genre_filter = 'All'
-        self.artist_spinner.text = 'All'
         for btn in self.genre_buttons_box.children:
             btn.background_color = (1,0.4,0.4,1)
         self.display_songs()
-    
     
     
     
