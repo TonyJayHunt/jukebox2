@@ -1,1 +1,0 @@
-See docstring in gui.py (v3.3) for detailed list of fixes/features.
