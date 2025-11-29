@@ -430,7 +430,7 @@ class JukeboxPlayer:
                 album_art_bytes = f.read()
 
         song = {
-            'path': 'I_am_a_test.mp3',
+            'path': 'First Dance Song.mp3',
             'title': 'The First Dance',
             'artists': ["Nicki's Mix"],
             'genres': ['Pop', 'Christmas'],
