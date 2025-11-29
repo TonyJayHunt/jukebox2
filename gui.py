@@ -47,13 +47,17 @@ class JukeboxGUI(BoxLayout):
     player = ObjectProperty()
     select_song_cb = ObjectProperty()
     dance_cb = ObjectProperty()
+    # NEW:
+    test_cb = ObjectProperty()
+    play_ambient_cb = ObjectProperty()
+    stop_ambient_cb = ObjectProperty()
 
     def __init__(self, **kwargs):
         super().__init__(orientation='horizontal', padding=10, spacing=10, **kwargs)
 
         # --- Left Column: Filters ---
         self.filter_box = BoxLayout(orientation='vertical', size_hint=(.2, 1), spacing=10)
-        self.filter_box.add_widget(Label(text='[b]Select AN Artist[/b]', markup=True, color=(0.15, 0.15, 0.15, 1), font_size=30, size_hint_y=None, height=30))
+        self.filter_box.add_widget(Label(text='[b]Select An Artist[/b]', markup=True, color=(0.15, 0.15, 0.15, 1), font_size=30, size_hint_y=None, height=30))
         self.artist_spinner = Spinner(text='All', values=['All'], size_hint_y=None, height=44, background_color=(0.5, 1, 0.5, 1))
         self.artist_spinner.bind(text=self.on_artist_selected)
         self.filter_box.add_widget(self.artist_spinner)
@@ -77,12 +81,77 @@ class JukeboxGUI(BoxLayout):
         self.info_label = Label(text='No song playing', size_hint_y=None, height=40, font_name="EmojiFont", font_size=30, color=(0.15, 0.15, 0.15, 1))
         self.middle_box.add_widget(self.info_label)
         
-        self.ctl_row = BoxLayout(orientation='horizontal', size_hint_y=None, height=50, spacing=10)
-        self.dance_btn = Button(text="Let's Dance!", size_hint=(None, None), width=160, height=44, on_press=self.handle_dance, background_color=(0.5,1,0.5,1))
-        self.skip_btn = Button(text="Skip Song", size_hint=(None, None), width=120, height=44, on_press=self.handle_skip, background_color=(1,0.4,0.4,1))
-        self.ctl_row.add_widget(self.dance_btn)
-        self.ctl_row.add_widget(self.skip_btn)
-        self.middle_box.add_widget(self.ctl_row)
+        self.ctl_box = BoxLayout(
+            orientation='vertical',
+            size_hint_y=None,
+            height=110,
+            spacing=10
+        )
+
+        # ----------------- ROW 1 -----------------
+        self.row1 = BoxLayout(
+            orientation='horizontal',
+            size_hint_y=None,
+            height=50,
+            spacing=10
+        )
+
+        self.dance_btn = Button(
+            text="Let's Dance!",
+            size_hint=(None, None),
+            width=160,
+            height=44,
+            on_press=self.handle_dance,
+            background_color=(0.5, 1, 0.5, 1),
+        )
+
+        self.test_btn = Button(
+            text="Test Music",
+            size_hint=(None, None),
+            width=140,
+            height=44,
+            on_press=self.handle_test,
+            background_color=(1, 0.8, 0.4, 1),
+        )
+
+        self.row1.add_widget(self.dance_btn)
+        self.row1.add_widget(self.test_btn)
+
+        # ----------------- ROW 2 -----------------
+        self.row2 = BoxLayout(
+            orientation='horizontal',
+            size_hint_y=None,
+            height=50,
+            spacing=10
+        )
+
+        self.play_ambient_btn = Button(
+            text="Play Ambient Music",
+            size_hint=(None, None),
+            width=180,
+            height=44,
+            on_press=self.handle_play_ambient,
+            background_color=(0.6, 0.8, 1, 1),
+        )
+
+        self.stop_ambient_btn = Button(
+            text="Stop Ambient Music",
+            size_hint=(None, None),
+            width=180,
+            height=44,
+            on_press=self.handle_stop_ambient,
+            background_color=(1, 0.6, 0.6, 1),
+        )
+
+        self.row2.add_widget(self.play_ambient_btn)
+        self.row2.add_widget(self.stop_ambient_btn)
+
+        # Add rows to main control layout
+        self.ctl_box.add_widget(self.row1)
+        self.ctl_box.add_widget(self.row2)
+
+        # Add control box to UI
+        self.middle_box.add_widget(self.ctl_box)
 
         self.middle_box.add_widget(Label(text='UP NEXT:', font_size=30, color=(0.15, 0.15, 0.15, 1), size_hint_y=None, height=30))
         self.middle_box.add_widget(Widget(size_hint_y=None, height=10))
@@ -251,10 +320,31 @@ class JukeboxGUI(BoxLayout):
             ))
 
     def handle_dance(self, instance):
-        if self.dance_btn.parent: # Remove button after it's pressed
+        if self.dance_btn.parent:  # Remove button after it's pressed
             self.ctl_row.remove_widget(self.dance_btn)
         if self.dance_cb:
             self.dance_cb()
+
+    # NEW: Test button → plays 2 random songs via callback, then disappears
+    def handle_test(self, instance):
+        if self.test_btn.parent:
+            self.ctl_row.remove_widget(self.test_btn)
+        if self.test_cb:
+            self.test_cb()
+
+    # NEW: Play Ambient button
+    def handle_play_ambient(self, instance):
+        if self.play_ambient_btn.parent:
+            self.ctl_row.remove_widget(self.play_ambient_btn)
+        if self.play_ambient_cb:
+            self.play_ambient_cb()
+
+    # NEW: Stop Ambient button
+    def handle_stop_ambient(self, instance):
+        if self.stop_ambient_btn.parent:
+            self.ctl_row.remove_widget(self.stop_ambient_btn)
+        if self.stop_ambient_cb:
+            self.stop_ambient_cb()
 
     def handle_skip(self, instance):
         if self.player:

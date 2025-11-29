@@ -118,6 +118,41 @@ def select_song(song_to_select):
 
     confirm_dialog(None, confirmation_message, after_confirm)
 
+def play_test_songs():
+    """Pick 2 random songs from the main /mp3 library and play them on the test channel."""
+    global player, all_songs_list
+
+    if not player or not all_songs_list:
+        print("[TEST] No player or songs available for test playback.")
+        return
+
+    # Choose up to 2 random songs from the loaded library
+    num = min(2, len(all_songs_list))
+    if num == 0:
+        print("[TEST] Library is empty; nothing to test.")
+        return
+
+    songs = random.sample(all_songs_list, k=num)
+
+    # IMPORTANT: just call the player's test method; do NOT start the jukebox thread here
+    player.play_test_songs(songs)
+
+
+
+def start_ambient_music():
+    """Start playing ambient music from /ambiant."""
+    global player
+    if player:
+        player.start_ambient_music("ambiant")
+
+
+def stop_ambient_music():
+    """Stop any ambient music from /ambiant."""
+    global player
+    if player:
+        player.stop_ambient_music()
+
+
 def start_playback_thread():
     """Starts the main audio playback thread if it's not already running."""
     global player
@@ -195,7 +230,10 @@ class JukeboxKivyApp(App):
             all_songs=all_songs_list,
             player=player,
             select_song_cb=select_song,
-            dance_cb=lambda: [player.play_special_song(), start_playback_thread()]
+            dance_cb=lambda: [player.play_special_song(), start_playback_thread()],
+            test_cb=play_test_songs,
+            play_ambient_cb=start_ambient_music,
+            stop_ambient_cb=stop_ambient_music,
         )
         
         # --- Populate GUI filters with available artists and genres ---
