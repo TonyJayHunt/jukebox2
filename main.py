@@ -14,14 +14,17 @@ import random
 import json
 from kivy.core.window import Window
 Window.clearcolor = (1, 0.99, 0.9, 1)  # A nice cream color (RGBA)
-
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
+from kivy.uix.button import Button
 from utils import normalize_genre, MAIN_GENRES
 
 class RootWidget(FloatLayout):
     def __init__(self, gui, **kwargs):
         super().__init__(**kwargs)
+        self.gui = gui
+
+        # Background image with bauble in bottom-left
         self.bg_image = Image(
             source="assets/images/background.png",
             allow_stretch=True,
@@ -30,7 +33,33 @@ class RootWidget(FloatLayout):
             pos_hint={'x': 0, 'y': 0}
         )
         self.add_widget(self.bg_image)
+
+        # Invisible button over the big bauble in the bottom-left corner
+        self.bauble_button = Button(
+            size_hint=(None, None),
+            width=320,     # tweak to match bauble size
+            height=320,    # tweak to match bauble size
+            pos_hint={'x': 0.0, 'y': 0.0},  # bottom-left of the window
+            background_normal='',
+            background_down='',
+            opacity=0,     # fully transparent
+        )
+
+        self.bauble_button.bind(on_press=self.on_bauble_press)
+        # Put hotspot on top of background but under everything else you add later
+        self.add_widget(self.bauble_button)
+
+        # GUI on top
         self.add_widget(gui)
+
+    def on_bauble_press(self, instance):
+        # Optional: make the bauble one-shot, like the Let’s Dance button
+        self.bauble_button.disabled = True
+        self.bauble_button.opacity = 0
+
+        # Trigger the same behavior as pressing the Let’s Dance button
+        if self.gui:
+            self.gui.handle_dance(instance)
 
 MUSIC_DIR = 'mp3/'
 PLAYLISTS_DIR = 'playlists'

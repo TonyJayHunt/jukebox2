@@ -104,6 +104,9 @@ class JukeboxGUI(BoxLayout):
             on_press=self.handle_dance,
             background_color=(0.5, 1, 0.5, 1),
         )
+        # Hide this physical button – it will be triggered by the bauble hotspot instead.
+        self.dance_btn.opacity = 0
+        self.dance_btn.disabled = True
 
         self.test_btn = Button(
             text="Test Music",
@@ -114,7 +117,8 @@ class JukeboxGUI(BoxLayout):
             background_color=(1, 0.8, 0.4, 1),
         )
 
-        self.row1.add_widget(self.dance_btn)
+        # Don't add the Let’s Dance button to row1; only Test Music is visible
+        # self.row1.add_widget(self.dance_btn)
         self.row1.add_widget(self.test_btn)
 
         # ----------------- ROW 2 -----------------
@@ -320,31 +324,36 @@ class JukeboxGUI(BoxLayout):
             ))
 
     def handle_dance(self, instance):
-        if self.dance_btn.parent:  # Remove button after it's pressed
-            self.ctl_row.remove_widget(self.dance_btn)
+        # Remove from row1 after it's pressed
+        if self.dance_btn.parent:
+            self.row1.remove_widget(self.dance_btn)
         if self.dance_cb:
             self.dance_cb()
 
-    # NEW: Test button → plays 2 random songs via callback, then disappears
+    # Test button → plays 2 random songs via callback, then disappears
     def handle_test(self, instance):
+        # Remove from row1 after it's pressed
         if self.test_btn.parent:
-            self.ctl_row.remove_widget(self.test_btn)
+            self.row1.remove_widget(self.test_btn)
         if self.test_cb:
             self.test_cb()
 
-    # NEW: Play Ambient button
+    # Play Ambient button
     def handle_play_ambient(self, instance):
+        # Remove from row2 after it's pressed
         if self.play_ambient_btn.parent:
-            self.ctl_row.remove_widget(self.play_ambient_btn)
+            self.row2.remove_widget(self.play_ambient_btn)
         if self.play_ambient_cb:
             self.play_ambient_cb()
 
-    # NEW: Stop Ambient button
+    # Stop Ambient button
     def handle_stop_ambient(self, instance):
+        # Remove from row2 after it's pressed
         if self.stop_ambient_btn.parent:
-            self.ctl_row.remove_widget(self.stop_ambient_btn)
+            self.row2.remove_widget(self.stop_ambient_btn)
         if self.stop_ambient_cb:
             self.stop_ambient_cb()
+
 
     def handle_skip(self, instance):
         if self.player:

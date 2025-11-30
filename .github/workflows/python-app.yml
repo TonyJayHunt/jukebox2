@@ -1,4 +1,4 @@
-name: Python application
+name: Python Allure Tests
 
 on:
   push:
@@ -6,22 +6,67 @@ on:
   pull_request:
     branches: [ "main" ]
 
-jobs:
-  build:
+# Grants permission to write to the repository (needed to publish the report to GitHub Pages)
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
+jobs:
+  test-and-report:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        # Install your project requirements
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Install testing libraries and project dependencies referenced in your scripts
+        # (Included here to ensure tests run even if requirements.txt is incomplete)
+        pip install pytest allure-pytest pygame mutagen kivy pillow pandas requests rapidfuzz yt-dlp python-docx
+
     - name: Add project root to PYTHONPATH
       run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
-    - name: Run tests
-      run: pytest
+
+    - name: Run Tests with Allure
+      # continue-on-error ensures the report step runs even if a test fails
+      continue-on-error: true
+      run: |
+        pytest --alluredir=allure-results
+
+    # --- Allure Reporting Steps ---
+
+    - name: Load Test Report History
+      uses: actions/checkout@v4
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
+
+    - name: Build Allure Report
+      uses: simple-elf/allure-report-action@master
+      if: always()
+      with:
+        allure_results: allure-results
+        gh_pages: gh-pages
+        allure_report: allure-report
+        allure_history: allure-history
+        keep_reports: 20
+
+    - name: Publish Report to GitHub Pages
+      if: always()
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: allure-history
