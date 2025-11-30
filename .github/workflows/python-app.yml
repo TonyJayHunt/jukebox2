@@ -50,15 +50,15 @@ jobs:
       if: always()
       continue-on-error: true
       with:
-        ref: gh-pages
-        path: gh-pages
+        ref: allure_reports
+        path: allure_reports
 
     - name: Build Allure Report
       uses: simple-elf/allure-report-action@master
       if: always()
       with:
         allure_results: allure-results
-        gh_pages: gh-pages
+        gh_pages: allure_reports
         allure_report: allure-report
         allure_history: allure-history
         keep_reports: 20
@@ -68,5 +68,5 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: gh-pages
+        publish_branch: allure_reports
         publish_dir: allure-history
