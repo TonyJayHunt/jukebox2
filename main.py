@@ -37,8 +37,8 @@ class RootWidget(FloatLayout):
         # Invisible button over the big bauble in the bottom-left corner
         self.bauble_button = Button(
             size_hint=(None, None),
-            width=320,     # tweak to match bauble size
-            height=320,    # tweak to match bauble size
+            width=600,     # tweak to match bauble size
+            height=600,    # tweak to match bauble size
             pos_hint={'x': 0.0, 'y': 0.0},  # bottom-left of the window
             background_normal='',
             background_down='',
