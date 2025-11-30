@@ -11,3 +11,4 @@ wikipedia
 beautifulsoup4
 allure-pytest
 kivy
+pandas
