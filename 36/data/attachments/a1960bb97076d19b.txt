@@ -1,0 +1,1 @@
+Metadata error for '/music/bad_file.mp3': Corrupt ID3 Header
