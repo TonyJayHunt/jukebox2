@@ -6,13 +6,13 @@
             "title": "get this party started"
         },
         "top_match": {
-            "filename": "P!NK - Get the Party Started.mp3",
+            "filename": "Get the Party Started.mp3",
             "artist": "p!nk",
             "title": "get the party started",
             "match_percent": 85.36
         },
         "next_best": {
-            "filename": "Poison - Every Rose Has Its Thorn.mp3",
+            "filename": "Every Rose Has Its Thorn.mp3",
             "artist": "poison",
             "title": "every rose has its thorn",
             "match_percent": 51.72
@@ -25,13 +25,13 @@
             "title": "rasputin"
         },
         "top_match": {
-            "filename": "Majestic & Boney M - Majestic x Boney M. - Rasputin (2022 Remix).mp3",
-            "artist": "majestic & boney m",
-            "title": "majestic x boney m. - rasputin (2022 remix)",
-            "match_percent": 91.18
+            "filename": "Majestic x Boney M. - Rasputin.mp3",
+            "artist": "majestic x/boney m.",
+            "title": "rasputin",
+            "match_percent": 83.69
         },
         "next_best": {
-            "filename": "Fatboy Slim - Praise You.mp3",
+            "filename": "Praise You.mp3",
             "artist": "fatboy slim",
             "title": "praise you",
             "match_percent": 50.08
@@ -44,13 +44,13 @@
             "title": "timber"
         },
         "top_match": {
-            "filename": "Pitbull - Timber ft. Ke$ha.mp3",
-            "artist": "timber",
-            "title": "timber . ke$ha",
-            "match_percent": 69.82
+            "filename": "Timber - Pitbull ft. Ke$ha.mp3",
+            "artist": "pitbull/ke$ha",
+            "title": "timber",
+            "match_percent": 87.09
         },
         "next_best": {
-            "filename": "Pitbull - Fireball (feat. John Ryan).mp3",
+            "filename": "Fireball.mp3",
             "artist": "pitbull",
             "title": "fireball",
             "match_percent": 54.29
@@ -63,13 +63,13 @@
             "title": "im good"
         },
         "top_match": {
-            "filename": "David Guetta & Bebe Rexha - I'm Good (Blue).mp3",
-            "artist": "david guetta & bebe rexha",
+            "filename": "I'm Good (Blue).mp3",
+            "artist": "david guetta/bebe raxha",
             "title": "i'm good (blue)",
-            "match_percent": 72.8
+            "match_percent": 73.76
         },
         "next_best": {
-            "filename": "Dodgy - Good Enough.mp3",
+            "filename": "Good Enough.mp3",
             "artist": "dodgy",
             "title": "good enough",
             "match_percent": 55.77
@@ -88,10 +88,10 @@
             "match_percent": 97.82
         },
         "next_best": {
-            "filename": "Michael Bublé - Silent Night.mp3",
-            "artist": "michael buble",
-            "title": "silent night",
-            "match_percent": 53.23
+            "filename": "Lionel Richie - All Night Long (All Night).mp3",
+            "artist": "lionel richie",
+            "title": "all night long (all night)",
+            "match_percent": 48.51
         }
     },
     {
@@ -107,7 +107,7 @@
             "match_percent": 97.35
         },
         "next_best": {
-            "filename": "Aqua - Doctor Jones.mp3",
+            "filename": "Doctor Jones.mp3",
             "artist": "aqua",
             "title": "doctor jones",
             "match_percent": 55.33
@@ -133,10 +133,16 @@
             "title": "moves like jagger"
         },
         "top_match": {
-            "filename": "Maroon 5 - Moves Like Jagger (feat. Christina Aguilera).mp3",
-            "artist": "maroon 5",
+            "filename": "Maroon 5 - Moves Like Jagger ft. Christina Aguilera.mp3",
+            "artist": "maroon 5/christina aguilera",
             "title": "moves like jagger",
-            "match_percent": 100.0
+            "match_percent": 93.6
+        },
+        "next_best": {
+            "filename": "Memories.mp3",
+            "artist": "maroon 5",
+            "title": "memories",
+            "match_percent": 67.16
         }
     },
     {
@@ -146,7 +152,7 @@
             "title": "we built this city"
         },
         "top_match": {
-            "filename": "Starship - We Built This City.mp3",
+            "filename": "We Built This City.mp3",
             "artist": "starship",
             "title": "we built this city",
             "match_percent": 100.0
@@ -165,7 +171,7 @@
             "match_percent": 96.67
         },
         "next_best": {
-            "filename": "Bon Jovi - You Give Love A Bad Name.mp3",
+            "filename": "You Give Love A Bad Name.mp3",
             "artist": "bon jovi",
             "title": "you give love a bad name",
             "match_percent": 66.73
@@ -178,13 +184,13 @@
             "title": "girls just wanna have fun"
         },
         "top_match": {
-            "filename": "Cyndi Lauper - Girls Just Want to Have Fun.mp3",
+            "filename": "Girls Just Want to Have Fun.mp3",
             "artist": "cyndi lauper",
             "title": "girls just want to have fun",
             "match_percent": 85.61
         },
         "next_best": {
-            "filename": "Blur - Girls & Boys.mp3",
+            "filename": "Girls & Boys.mp3",
             "artist": "blur",
             "title": "girls & boys",
             "match_percent": 51.32
@@ -197,29 +203,35 @@
             "title": "dance me tonight"
         },
         "top_match": {
-            "filename": "Olly Murs - Dance With Me Tonight.mp3",
+            "filename": "In the Air Tonight.mp3",
+            "artist": "phil collins",
+            "title": "in the air tonight",
+            "match_percent": 56.5
+        },
+        "next_best": {
+            "filename": "Wrapped Up.mp3",
             "artist": "olly murs",
-            "title": "dance me tonight",
-            "match_percent": 100.0
+            "title": "wrapped up",
+            "match_percent": 53.9
         }
     },
     {
         "row_number": 14,
         "query": {
-            "artist": "jennifer lopas",
+            "artist": "jennifer lopez",
             "title": "on the floor"
         },
         "top_match": {
-            "filename": "Jennifer Lopez - On The Floor (Feat. Pitbull).mp3",
-            "artist": "jennifer lopez",
+            "filename": "On The Floor - Jennifer Lopez.mp3",
+            "artist": "jennifer lopez/pitbull",
             "title": "on the floor",
-            "match_percent": 95.08
+            "match_percent": 93.78
         },
         "next_best": {
             "filename": "Jennifer Saunders - Holding Out For a Hero.mp3",
             "artist": "jennifer saunders",
             "title": "holding out for a hero",
-            "match_percent": 60.52
+            "match_percent": 59.53
         }
     },
     {
@@ -235,10 +247,10 @@
             "match_percent": 91.63
         },
         "next_best": {
-            "filename": "Natalie Imbruglia - Torn.mp3",
-            "artist": "natalie imbruglia",
-            "title": "torn",
-            "match_percent": 45.26
+            "filename": "Pink Pony Club.mp3",
+            "artist": "chappell roan",
+            "title": "pink pony club",
+            "match_percent": 63.6
         }
     },
     {
@@ -248,7 +260,7 @@
             "title": "cotton eye joe"
         },
         "top_match": {
-            "filename": "Rednex - Cotton Eye Joe.mp3",
+            "filename": "Cotton Eye Joe.mp3",
             "artist": "rednex",
             "title": "cotton eye joe",
             "match_percent": 100.0
@@ -261,16 +273,16 @@
             "title": "something just like this"
         },
         "top_match": {
-            "filename": "The Chainsmokers & Coldplay - Something Just Like This.mp3",
-            "artist": "the chainsmokers & coldplay",
+            "filename": "Something Just Like This.mp3",
+            "artist": "the chainsmokers",
             "title": "something just like this",
-            "match_percent": 94.02
+            "match_percent": 92.57
         },
         "next_best": {
-            "filename": "Coldplay - Christmas Lights.mp3",
-            "artist": "coldplay",
-            "title": "christmas lights",
-            "match_percent": 49.93
+            "filename": "Don't Let Me Down.mp3",
+            "artist": "the chainsmokers",
+            "title": "dont let me down",
+            "match_percent": 54.02
         }
     },
     {
@@ -286,7 +298,7 @@
             "match_percent": 96.2
         },
         "next_best": {
-            "filename": "Blur - Song 2.mp3",
+            "filename": "Song 2.mp3",
             "artist": "blur",
             "title": "song 2",
             "match_percent": 43.68
@@ -312,13 +324,13 @@
             "title": "don't stop believing"
         },
         "top_match": {
-            "filename": "Journey - Don't Stop Believin'.mp3",
+            "filename": "Don't Stop Believin'.mp3",
             "artist": "journey",
             "title": "don't stop believin'",
             "match_percent": 97.44
         },
         "next_best": {
-            "filename": "Spice Girls - Stop.mp3",
+            "filename": "Stop.mp3",
             "artist": "spice girls",
             "title": "stop",
             "match_percent": 61.96
@@ -331,16 +343,16 @@
             "title": "dancing on the ceilng"
         },
         "top_match": {
+            "filename": "Dancing On The Ceiling.mp3",
+            "artist": "lionel richie",
+            "title": "dancing on the ceiling",
+            "match_percent": 98.17
+        },
+        "next_best": {
             "filename": "Lionel Richie - All Night Long (All Night).mp3",
             "artist": "lionel richie",
             "title": "all night long (all night)",
             "match_percent": 67.51
-        },
-        "next_best": {
-            "filename": "Bruce Springsteen - Dancing In the Dark.mp3",
-            "artist": "bruce springsteen",
-            "title": "dancing in the dark",
-            "match_percent": 59.27
         }
     },
     {
@@ -350,16 +362,16 @@
             "title": "a bar song"
         },
         "top_match": {
-            "filename": "Shaboozey - A Bar Song (Tipsy).mp3",
+            "filename": "A Bar Song (Tipsy).mp3",
             "artist": "shaboozey",
             "title": "a bar song (tipsy)",
             "match_percent": 97.43
         },
         "next_best": {
-            "filename": "Cher - DJ Play a Christmas Song.mp3",
-            "artist": "cher",
-            "title": "dj play a christmas song",
-            "match_percent": 54.84
+            "filename": "Song 2.mp3",
+            "artist": "blur",
+            "title": "song 2",
+            "match_percent": 52.61
         }
     },
     {
@@ -375,10 +387,10 @@
             "match_percent": 97.33
         },
         "next_best": {
-            "filename": "Carly Rae Jepsen - Call Me Maybe.mp3",
-            "artist": "carly rae jepsen",
-            "title": "call me maybe",
-            "match_percent": 46.42
+            "filename": "Christmas Where We Are.mp3",
+            "artist": "dolly parton/billy ray cyrus",
+            "title": "christmas where we are",
+            "match_percent": 58.11
         }
     },
     {
@@ -388,16 +400,16 @@
             "title": "sunflower"
         },
         "top_match": {
-            "filename": "Post Malone & Swae Lee - Sunflower.mp3",
-            "artist": "post malone & swae lee",
+            "filename": "Sunflower.mp3",
+            "artist": "post malone/swae lee",
             "title": "sunflower",
-            "match_percent": 98.0
+            "match_percent": 91.87
         },
         "next_best": {
-            "filename": "Love Potion - I Swear.mp3",
-            "artist": "love potion",
+            "filename": "All-4-One - I Swear.mp3",
+            "artist": "all-4-one",
             "title": "i swear",
-            "match_percent": 55.59
+            "match_percent": 54.37
         }
     },
     {
@@ -407,7 +419,7 @@
             "title": "crazy little thing called love"
         },
         "top_match": {
-            "filename": "Queen - Crazy Little Thing Called Love.mp3",
+            "filename": "Crazy Little Thing Called Love.mp3",
             "artist": "queen",
             "title": "crazy little thing called love",
             "match_percent": 100.0
@@ -420,16 +432,10 @@
             "title": "pink pony club"
         },
         "top_match": {
-            "filename": "Ginuwine - Pony.mp3",
-            "artist": "ginuwine",
-            "title": "pony",
-            "match_percent": 60.33
-        },
-        "next_best": {
-            "filename": "Mark Ronson - Uptown Funk (feat. Bruno Mars).mp3",
-            "artist": "mark ronson",
-            "title": "uptown funk",
-            "match_percent": 48.75
+            "filename": "Pink Pony Club.mp3",
+            "artist": "chappell roan",
+            "title": "pink pony club",
+            "match_percent": 100.0
         }
     },
     {
@@ -439,13 +445,13 @@
             "title": "hey ya"
         },
         "top_match": {
-            "filename": "Outkast - Hey Ya!.mp3",
+            "filename": "OutKast - Hey Ya!.mp3",
             "artist": "outkast",
             "title": "hey ya!",
             "match_percent": 91.05
         },
         "next_best": {
-            "filename": "The Chemical Brothers - Hey Boy Hey Girl.mp3",
+            "filename": "Hey Boy Hey Girl.mp3",
             "artist": "the chemical brothers",
             "title": "hey boy hey girl",
             "match_percent": 55.6
@@ -458,13 +464,13 @@
             "title": "i am the one an only"
         },
         "top_match": {
-            "filename": "Chesney Hawkes - The One And Only.mp3",
+            "filename": "Chesney Hawkes - The One and Only.mp3",
             "artist": "chesney hawkes",
             "title": "the one and only",
             "match_percent": 93.21
         },
         "next_best": {
-            "filename": "The Charlatans - The Only One I Know.mp3",
+            "filename": "The Only One I Know.mp3",
             "artist": "the charlatans",
             "title": "the only one i know",
             "match_percent": 60.92
@@ -477,7 +483,7 @@
             "title": "marry you"
         },
         "top_match": {
-            "filename": "Bruno Mars - Marry You.mp3",
+            "filename": "Marry You.mp3",
             "artist": "bruno mars",
             "title": "marry you",
             "match_percent": 100.0
@@ -496,10 +502,10 @@
             "match_percent": 98.0
         },
         "next_best": {
-            "filename": "Chasing Abbey - Must Mean It's Christmas.mp3",
-            "artist": "chasing abbey",
-            "title": "must mean it's christmas",
-            "match_percent": 46.02
+            "filename": "Freak Like Me.mp3",
+            "artist": "sugababes",
+            "title": "freak like me",
+            "match_percent": 45.08
         }
     },
     {
@@ -515,7 +521,7 @@
             "match_percent": 97.28
         },
         "next_best": {
-            "filename": "Olly Murs - Wrapped Up (feat. Travie McCoy).mp3",
+            "filename": "Wrapped Up.mp3",
             "artist": "olly murs",
             "title": "wrapped up",
             "match_percent": 48.48
@@ -528,7 +534,7 @@
             "title": "espresso"
         },
         "top_match": {
-            "filename": "Sabrina Carpenter - Espresso.mp3",
+            "filename": "Espresso.mp3",
             "artist": "sabrina carpenter",
             "title": "espresso",
             "match_percent": 100.0
@@ -541,16 +547,16 @@
             "title": "happy"
         },
         "top_match": {
-            "filename": "Pharrell Williams - Happy.mp3",
+            "filename": "Pharrell Williams - Happy (Video).mp3",
             "artist": "pharrell williams",
             "title": "happy",
             "match_percent": 95.95
         },
         "next_best": {
-            "filename": "John Lennon & The Plastic Ono Band - Happy Xmas (War Is Over).mp3",
-            "artist": "john lennon & the plastic ono band",
+            "filename": "Happy Xmas (War Is Over).mp3",
+            "artist": "john lennon",
             "title": "happy xmas (war is over)",
-            "match_percent": 64.57
+            "match_percent": 63.6
         }
     },
     {
@@ -560,7 +566,7 @@
             "title": "sit down"
         },
         "top_match": {
-            "filename": "James - Sit Down.mp3",
+            "filename": "Sit Down.mp3",
             "artist": "james",
             "title": "sit down",
             "match_percent": 100.0
@@ -573,7 +579,7 @@
             "title": "viva la vida"
         },
         "top_match": {
-            "filename": "Coldplay - Viva La Vida.mp3",
+            "filename": "Viva La Vida.mp3",
             "artist": "coldplay",
             "title": "viva la vida",
             "match_percent": 96.85
@@ -592,7 +598,7 @@
             "title": "uptown girl"
         },
         "top_match": {
-            "filename": "Westlife - Uptown Girl.mp3",
+            "filename": "Uptown Girl Westlife.mp3",
             "artist": "westlife",
             "title": "uptown girl",
             "match_percent": 100.0
@@ -605,7 +611,7 @@
             "title": "dance monkey"
         },
         "top_match": {
-            "filename": "Tones And I - Dance Monkey.mp3",
+            "filename": "TONES AND I - DANCE MONKEY.mp3",
             "artist": "tones and i",
             "title": "dance monkey",
             "match_percent": 100.0
@@ -618,7 +624,7 @@
             "title": "no limit"
         },
         "top_match": {
-            "filename": "2 Unlimited - No Limit.mp3",
+            "filename": "No Limit.mp3",
             "artist": "2 unlimited",
             "title": "no limit",
             "match_percent": 100.0
@@ -631,7 +637,7 @@
             "title": "love story"
         },
         "top_match": {
-            "filename": "Taylor Swift - Love Story.mp3",
+            "filename": "Love Story.mp3",
             "artist": "taylor swift",
             "title": "love story",
             "match_percent": 100.0
@@ -644,16 +650,16 @@
             "title": "reach"
         },
         "top_match": {
-            "filename": "S Club 7 -  Reach for the Stars.mp3",
+            "filename": "S Club 7 - Reach for the Stars.mp3",
             "artist": "s club 7",
             "title": "reach for the stars",
             "match_percent": 93.11
         },
         "next_best": {
-            "filename": "S Club - Bring It All Back.mp3",
-            "artist": "s club",
+            "filename": "Bring It All Back.mp3",
+            "artist": "s club 7",
             "title": "bring it all back",
-            "match_percent": 55.05
+            "match_percent": 55.82
         }
     },
     {
@@ -663,16 +669,16 @@
             "title": "lady marmalade"
         },
         "top_match": {
-            "filename": "Christina Aguilera, Lil' Kim, Mýa & P!nk - Lady Marmalade.mp3",
-            "artist": "christina aguilera/lil' kim/mya/p!nk",
+            "filename": "Christina Aguilera, Lil' Kim, Mya, P!nk - Lady Marmalade.mp3",
+            "artist": "christina aguilera, lil' kim, mya, p!nk",
             "title": "lady marmalade",
-            "match_percent": 86.22
+            "match_percent": 85.34
         },
         "next_best": {
-            "filename": "Tony Christie - Amarillo.mp3",
-            "artist": "tony christie",
-            "title": "amarillo",
-            "match_percent": 48.77
+            "filename": "christina perri - merry christmas darling.mp3",
+            "artist": "christina perri",
+            "title": "merry christmas darling",
+            "match_percent": 45.56
         }
     },
     {
@@ -682,10 +688,16 @@
             "title": "come on eileen"
         },
         "top_match": {
-            "filename": "Dexys Midnight Runners - Come On Eileen.mp3",
-            "artist": "dexys midnight runners",
+            "filename": "Come On Eileen.mp3",
+            "artist": "dexys midnight runners, kevin rowland",
             "title": "come on eileen",
-            "match_percent": 100.0
+            "match_percent": 93.59
+        },
+        "next_best": {
+            "filename": "Come with Me Now.mp3",
+            "artist": "kongos",
+            "title": "come me now",
+            "match_percent": 49.67
         }
     },
     {
@@ -695,16 +707,16 @@
             "title": "wish i was a punk rocker"
         },
         "top_match": {
-            "filename": "Sandi Thom - I Wish I Was A Punkrocker.mp3",
+            "filename": "Sandi Thom - I Wish I Was A Punk Rocker.mp3",
             "artist": "sandi thom",
-            "title": "i wish i was a punkrocker",
-            "match_percent": 95.83
+            "title": "i wish i was a punk rocker",
+            "match_percent": 97.11
         },
         "next_best": {
-            "filename": "Shania Twain - Man! I Feel Like A Woman.mp3",
-            "artist": "shania twain",
-            "title": "man! i feel like a woman",
-            "match_percent": 47.51
+            "filename": "TONES AND I - DANCE MONKEY.mp3",
+            "artist": "tones and i",
+            "title": "dance monkey",
+            "match_percent": 47.23
         }
     },
     {
@@ -714,13 +726,13 @@
             "title": "its a beautiful day"
         },
         "top_match": {
-            "filename": "U2 - Beautiful Day.mp3",
+            "filename": "Beautiful Day.mp3",
             "artist": "u2",
             "title": "beautiful day",
             "match_percent": 98.31
         },
         "next_best": {
-            "filename": "U2 - With Or Without You.mp3",
+            "filename": "With Or Without You.mp3",
             "artist": "u2",
             "title": "or without you",
             "match_percent": 59.82
@@ -733,7 +745,7 @@
             "title": "green green grass"
         },
         "top_match": {
-            "filename": "George Ezra - Green Green Grass.mp3",
+            "filename": "Green Green Grass.mp3",
             "artist": "george ezra",
             "title": "green green grass",
             "match_percent": 100.0
@@ -746,16 +758,16 @@
             "title": "i wanna dance somebody"
         },
         "top_match": {
-            "filename": "Whitney Houston - I Wanna Dance with Somebody (Who Loves Me).mp3",
+            "filename": "I Wanna Dance with Somebody (Who Loves Me).mp3",
             "artist": "whitney houston",
             "title": "i wanna dance somebody (who loves me)",
             "match_percent": 95.05
         },
         "next_best": {
-            "filename": "Tones And I - Dance Monkey.mp3",
-            "artist": "tones and i",
-            "title": "dance monkey",
-            "match_percent": 53.78
+            "filename": "I Can't Dance.mp3",
+            "artist": "genesis",
+            "title": "i can't dance",
+            "match_percent": 55.06
         }
     },
     {
@@ -765,7 +777,7 @@
             "title": "song 2"
         },
         "top_match": {
-            "filename": "Blur - Song 2.mp3",
+            "filename": "Song 2.mp3",
             "artist": "blur",
             "title": "song 2",
             "match_percent": 100.0
@@ -778,16 +790,16 @@
             "title": "i love rock and roll"
         },
         "top_match": {
-            "filename": "Joan Jett & the Blackhearts - I Love Rock 'N Roll.mp3",
-            "artist": "joan jett & the blackhearts",
+            "filename": "I Love Rock 'N Roll.mp3",
+            "artist": "joan jett and the blackhearts",
             "title": "i love rock 'n roll",
-            "match_percent": 91.87
+            "match_percent": 91.72
         },
         "next_best": {
-            "filename": "Icona Pop - I Love It (feat. Charli XCX).mp3",
-            "artist": "icona pop",
+            "filename": "I Love It.mp3",
+            "artist": "icona pop/charli xcx",
             "title": "i love it",
-            "match_percent": 58.53
+            "match_percent": 57.09
         }
     },
     {
@@ -797,10 +809,16 @@
             "title": "smooth criminal"
         },
         "top_match": {
-            "filename": "Alien Ant Farm - Smooth Criminal.mp3",
-            "artist": "alien ant farm",
+            "filename": "Smooth Criminal.mp3",
+            "artist": "alien ant farm channel",
             "title": "smooth criminal",
-            "match_percent": 100.0
+            "match_percent": 98.67
+        },
+        "next_best": {
+            "filename": "Santana - Smooth.mp3",
+            "artist": "santana/rob thomas",
+            "title": "smooth",
+            "match_percent": 74.65
         }
     },
     {
@@ -810,16 +828,16 @@
             "title": "its all about her"
         },
         "top_match": {
-            "filename": "S Club - Bring It All Back.mp3",
-            "artist": "s club",
-            "title": "bring it all back",
-            "match_percent": 50.24
+            "filename": "All About You.mp3",
+            "artist": "mcfly",
+            "title": "all about you",
+            "match_percent": 86.85
         },
         "next_best": {
-            "filename": "Coldplay - A Sky Full of Stars.mp3",
-            "artist": "coldplay",
-            "title": "a sky full of stars",
-            "match_percent": 46.06
+            "filename": "Five Colours In Her Hair.mp3",
+            "artist": "mcfly",
+            "title": "five colours in her hair",
+            "match_percent": 68.52
         }
     },
     {
@@ -829,16 +847,16 @@
             "title": "oh what a night"
         },
         "top_match": {
-            "filename": "Frankie Valli & The Four Seasons - December, 1963 (Oh, What a Night).mp3",
-            "artist": "frankie valli & the four seasons",
+            "filename": "December, 1963 (Oh, What a Night).mp3",
+            "artist": "frankie valli and the four seasons",
             "title": "december, 1963 (oh, what a night)",
-            "match_percent": 70.42
+            "match_percent": 70.28
         },
         "next_best": {
-            "filename": "Irene Cara - Flashdance... What a Feeling.mp3",
+            "filename": "Irene Cara  - Flashdance What A Feeling.mp3",
             "artist": "irene cara",
-            "title": "flashdance... what a feeling",
-            "match_percent": 53.13
+            "title": "flashdance what a feeling",
+            "match_percent": 53.47
         }
     },
     {
@@ -848,16 +866,16 @@
             "title": "single ladies"
         },
         "top_match": {
-            "filename": "Beyoncé - Single Ladies (Put a Ring on It).mp3",
+            "filename": "Single Ladies (Put a Ring on It).mp3",
             "artist": "beyonce",
             "title": "single ladies (put a ring on it)",
             "match_percent": 96.2
         },
         "next_best": {
-            "filename": "Michael Bublé - Jingle Bells (feat. The Puppini Sisters).mp3",
-            "artist": "michael buble",
-            "title": "jingle bells",
-            "match_percent": 54.28
+            "filename": "JOLENE.mp3",
+            "artist": "beyonce",
+            "title": "jolene",
+            "match_percent": 62.74
         }
     },
     {
@@ -867,16 +885,16 @@
             "title": "what a feeling"
         },
         "top_match": {
-            "filename": "Irene Cara - Flashdance... What a Feeling.mp3",
+            "filename": "Irene Cara  - Flashdance What A Feeling.mp3",
             "artist": "irene cara",
-            "title": "flashdance... what a feeling",
-            "match_percent": 97.0
+            "title": "flashdance what a feeling",
+            "match_percent": 97.46
         },
         "next_best": {
-            "filename": "The Black Eyed Peas - I Gotta Feeling.mp3",
-            "artist": "the black eyed peas",
-            "title": "i gotta feeling",
-            "match_percent": 56.74
+            "filename": "Hooked On A Feeling.mp3",
+            "artist": "blue swede",
+            "title": "hooked on a feeling",
+            "match_percent": 58.32
         }
     },
     {
@@ -886,16 +904,16 @@
             "title": "we found love"
         },
         "top_match": {
-            "filename": "Rihanna & Calvin Harris - We Found Love.mp3",
-            "artist": "rihanna & calvin harris",
+            "filename": "We Found Love.mp3",
+            "artist": "rihanna/calvin harris",
             "title": "we found love",
-            "match_percent": 81.49
+            "match_percent": 82.29
         },
         "next_best": {
-            "filename": "Icona Pop - I Love It (feat. Charli XCX).mp3",
-            "artist": "icona pop",
-            "title": "i love it",
-            "match_percent": 53.76
+            "filename": "What Is Love.mp3",
+            "artist": "haddaway",
+            "title": "what is love",
+            "match_percent": 51.31
         }
     },
     {
@@ -905,7 +923,7 @@
             "title": "love machine"
         },
         "top_match": {
-            "filename": "Girls Aloud - Love Machine.mp3",
+            "filename": "Love Machine.mp3",
             "artist": "girls aloud",
             "title": "love machine",
             "match_percent": 100.0
@@ -918,13 +936,13 @@
             "title": "ohh ahh just a little bit"
         },
         "top_match": {
-            "filename": "Gina G - Ooh Aah... Just a Little Bit.mp3",
+            "filename": "Ooh Aah... Just a Little Bit.mp3",
             "artist": "gina g",
             "title": "ooh aah... just a little bit",
             "match_percent": 91.57
         },
         "next_best": {
-            "filename": "Lady Gaga - Just Dance (feat. Colby O'Donis).mp3",
+            "filename": "Just Dance.mp3",
             "artist": "lady gaga",
             "title": "just dance",
             "match_percent": 51.66
@@ -937,16 +955,16 @@
             "title": "mr saxxo beat"
         },
         "top_match": {
-            "filename": "Alexandra Stan - Mr. Saxobeat.mp3",
-            "artist": "alexandra stan",
-            "title": "mr. saxobeat",
-            "match_percent": 76.44
+            "filename": "Rather Be.mp3",
+            "artist": "clean bandit/jess glynne",
+            "title": "rather be",
+            "match_percent": 45.32
         },
         "next_best": {
-            "filename": "Ed Sheeran - Beautiful People (feat. Khalid).mp3",
+            "filename": "Bad Habits.mp3",
             "artist": "ed sheeran",
-            "title": "beautiful people",
-            "match_percent": 45.81
+            "title": "bad habits",
+            "match_percent": 43.99
         }
     },
     {
@@ -956,13 +974,13 @@
             "title": "don't stop moving"
         },
         "top_match": {
-            "filename": "S Club - Don't Stop Movin' Radio Edit.mp3",
-            "artist": "s club",
-            "title": "don't stop movin' radio",
-            "match_percent": 89.05
+            "filename": "S Club 7 - Don't Stop Movin.mp3",
+            "artist": "s club 7",
+            "title": "don't stop movin",
+            "match_percent": 92.98
         },
         "next_best": {
-            "filename": "Spice Girls - Stop.mp3",
+            "filename": "Stop.mp3",
             "artist": "spice girls",
             "title": "stop",
             "match_percent": 71.13
@@ -975,13 +993,13 @@
             "title": "things can only get better"
         },
         "top_match": {
-            "filename": "D_Ream - Things Can Only Get Better.mp3",
+            "filename": "D：Ream - Things Can Only Get Better.mp3",
             "artist": "d:ream",
             "title": "things can only get better",
             "match_percent": 88.36
         },
         "next_best": {
-            "filename": "DNCE - Cake By The Ocean.mp3",
+            "filename": "Cake By The Ocean.mp3",
             "artist": "dnce",
             "title": "cake by the ocean",
             "match_percent": 47.15
@@ -1000,10 +1018,10 @@
             "match_percent": 96.37
         },
         "next_best": {
-            "filename": "The Police - Roxanne.mp3",
-            "artist": "the police",
-            "title": "roxanne",
-            "match_percent": 47.0
+            "filename": "Dancing On The Ceiling.mp3",
+            "artist": "lionel richie",
+            "title": "dancing on the ceiling",
+            "match_percent": 51.83
         }
     },
     {
@@ -1013,7 +1031,7 @@
             "title": "wannabe"
         },
         "top_match": {
-            "filename": "Spice Girls - Wannabe.mp3",
+            "filename": "Wannabe.mp3",
             "artist": "spice girls",
             "title": "wannabe",
             "match_percent": 100.0
@@ -1026,7 +1044,7 @@
             "title": "wrapped up"
         },
         "top_match": {
-            "filename": "Olly Murs - Wrapped Up (feat. Travie McCoy).mp3",
+            "filename": "Wrapped Up.mp3",
             "artist": "olly murs",
             "title": "wrapped up",
             "match_percent": 100.0
@@ -1039,7 +1057,7 @@
             "title": "ooh heaven is a place on earth"
         },
         "top_match": {
-            "filename": "Belinda Carlisle - Heaven Is A Place On Earth.mp3",
+            "filename": "Heaven Is a Place on Earth.mp3",
             "artist": "belinda carlisle",
             "title": "heaven is a place on earth",
             "match_percent": 99.36
@@ -1052,16 +1070,16 @@
             "title": "feels"
         },
         "top_match": {
-            "filename": "Calvin Harris - Feels (feat. Katy Perry).mp3",
-            "artist": "calvin harris",
-            "title": "feels(",
-            "match_percent": 96.18
+            "filename": "Calvin Harris - Feels.mp3",
+            "artist": "calvin harris/pharrell williams/katy perry/big sean",
+            "title": "feels",
+            "match_percent": 88.33
         },
         "next_best": {
-            "filename": "Rihanna & Calvin Harris - We Found Love.mp3",
-            "artist": "rihanna & calvin harris",
-            "title": "we found love",
-            "match_percent": 57.33
+            "filename": "One Kiss.mp3",
+            "artist": "calvin harris",
+            "title": "one kiss",
+            "match_percent": 55.05
         }
     },
     {
@@ -1071,16 +1089,16 @@
             "title": "high hopes"
         },
         "top_match": {
-            "filename": "Panic! At The Disco - High Hopes.mp3",
+            "filename": "High Hopes.mp3",
             "artist": "panic! at the disco",
             "title": "high hopes",
             "match_percent": 98.58
         },
         "next_best": {
-            "filename": "Mike + The Mechanics - The Living Years.mp3",
-            "artist": "mike + the mechanics",
-            "title": "the living years",
-            "match_percent": 49.28
+            "filename": "Ho Hey.mp3",
+            "artist": "the lumineers",
+            "title": "ho hey",
+            "match_percent": 50.38
         }
     },
     {
@@ -1090,13 +1108,13 @@
             "title": "man i feel like a woman"
         },
         "top_match": {
-            "filename": "Shania Twain - Man! I Feel Like A Woman.mp3",
+            "filename": "Shania Twain - Man! I Feel Like A Woman!.mp3",
             "artist": "shania twain",
-            "title": "man! i feel like a woman",
-            "match_percent": 98.32
+            "title": "man! i feel like a woman!",
+            "match_percent": 97.47
         },
         "next_best": {
-            "filename": "Shania Twain - That Don't Impress Me Much.mp3",
+            "filename": "That Don't Impress Me Much.mp3",
             "artist": "shania twain",
             "title": "that don't impress me much",
             "match_percent": 61.13
@@ -1109,10 +1127,10 @@
             "title": "dancing in the street"
         },
         "top_match": {
-            "filename": "Mick Jagger & David Bowie - Dancing in the Street.mp3",
-            "artist": "mick jagger & david bowie",
+            "filename": "David Bowie & Mick Jagger - Dancing In The Street.mp3",
+            "artist": "david bowie/mick jagger",
             "title": "dancing in the street",
-            "match_percent": 91.97
+            "match_percent": 96.1
         },
         "next_best": {
             "filename": "Bruce Springsteen - Dancing In the Dark.mp3",
@@ -1128,10 +1146,10 @@
             "title": "i gotta feeling"
         },
         "top_match": {
-            "filename": "The Black Eyed Peas - I Gotta Feeling.mp3",
-            "artist": "the black eyed peas",
+            "filename": "I Gotta Feeling.mp3",
+            "artist": "black eyed peas",
             "title": "i gotta feeling",
-            "match_percent": 99.29
+            "match_percent": 100.0
         }
     },
     {
@@ -1141,16 +1159,16 @@
             "title": "hey mickey"
         },
         "top_match": {
-            "filename": "Lolly - Mickey.mp3",
+            "filename": "Mickey.mp3",
             "artist": "lolly",
             "title": "mickey",
             "match_percent": 97.75
         },
         "next_best": {
-            "filename": "Olly Murs - Dance With Me Tonight.mp3",
-            "artist": "olly murs",
-            "title": "dance me tonight",
-            "match_percent": 47.59
+            "filename": "OutKast - Hey Ya!.mp3",
+            "artist": "outkast",
+            "title": "hey ya!",
+            "match_percent": 46.85
         }
     },
     {
@@ -1160,7 +1178,7 @@
             "title": "mysterious girl"
         },
         "top_match": {
-            "filename": "Peter Andre - Mysterious Girl.mp3",
+            "filename": "Mysterious Girl.mp3",
             "artist": "peter andre",
             "title": "mysterious girl",
             "match_percent": 100.0
@@ -1173,16 +1191,10 @@
             "title": "this is what you came for"
         },
         "top_match": {
-            "filename": "Calvin Harris & Rihanna - This Is What You Came For.mp3",
-            "artist": "calvin harris & rihanna",
-            "title": "this is what you came for",
-            "match_percent": 98.33
-        },
-        "next_best": {
-            "filename": "Calvin Harris - Summer.mp3",
+            "filename": "This Is What You Came For.mp3",
             "artist": "calvin harris",
-            "title": "summer",
-            "match_percent": 58.29
+            "title": "this is what you came for",
+            "match_percent": 100.0
         }
     },
     {
@@ -1205,7 +1217,7 @@
             "title": "dynamite"
         },
         "top_match": {
-            "filename": "BTS - Dynamite.mp3",
+            "filename": "Dynamite -BTS.mp3",
             "artist": "bts",
             "title": "dynamite",
             "match_percent": 100.0
@@ -1218,7 +1230,7 @@
             "title": "it must be love"
         },
         "top_match": {
-            "filename": "Madness - It Must Be Love.mp3",
+            "filename": "It Must Be Love.mp3",
             "artist": "madness",
             "title": "it must be love",
             "match_percent": 100.0

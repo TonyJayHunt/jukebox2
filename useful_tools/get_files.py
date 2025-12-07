@@ -37,7 +37,7 @@ def extract_files_to_csv(directory_path, csv_filename):
 
 # Example usage
 if __name__ == '__main__':
-    directory = "./mp3"  # Replace with your directory path
+    directory = "./mp3_1"  # Replace with your directory path
     csv_output = './file_list.csv'
     extract_files_to_csv(directory, csv_output)
     print(f"File list extracted to {csv_output}")
