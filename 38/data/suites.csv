@@ -1,0 +1,240 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"
+        Scenario: 'song.mp3' exists and has ID3 tags.
+        Expectation: Row written: ['song.mp3', 'My Title', 'My Artist']
+        ","0","Extract Title and Artist from valid MP3","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestMP3Metadata","Metadata","",""
+"
+        Scenario: Directory contains .txt and .jpg files.
+        Expectation: Result list should be empty.
+        ","0","Ignore non-MP3 files","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestGetMp3Files","File System Scanning","",""
+"","1","Handle empty or non-string inputs","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestCleanGenre","Data Cleaning","",""
+"Verify that specific shorthand aliases map correctly.","0","Map specific aliases like x-mas and alt rock","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"Verify that input is trimmed and lowercased before mapping.","0","Handle whitespace and casing","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"","0","Verify JSON files were written","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestScriptWorkflow","Integration","",""
+"","0","Remove video suffixes (Official Video, etc)","tests","Sun Dec 07 10:34:23 UTC 2025","passed","Sun Dec 07 10:34:23 UTC 2025","TestSanitization","String Processing","",""
+"Verify that specific shorthand aliases map correctly.","0","Map specific aliases like x-mas and alt rock","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"","0","Remove feats, parens, and accents","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestNormalization","Data Cleaning","",""
+"","0","Remove feats, parens, and accents","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestNormalization","Data Cleaning","",""
+"","0","Handle empty player gracefully","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestUpcomingSongsDisplay","Playlist Display Logic","",""
+"Verify playlists are empty and locks are ready.","0","Verify initial attributes","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestPlayerInit","Core Logic","",""
+"
+        Scenario: Two image paths provided.
+        Expectation: Both opened, rotated 180, resized, and pasted onto canvas.
+        ","0","Open, rotate, resize, and paste inputs","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestA5Creation","A5 Layout","",""
+"","0","Handle empty or None inputs","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestNormalization","Data Cleaning","",""
+"","0","High score for identical pairs","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestScoring","Matching Logic","",""
+"
+        Scenario: Playlist is empty.
+        Expectation: Returns 0.
+        ","0","Handle empty playlist gracefully","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestPlaylistIndexing","Playlist Logic","",""
+"","1","Remove video suffixes (Official Video, etc)","tests","Sun Dec 07 10:34:23 UTC 2025","passed","Sun Dec 07 10:34:23 UTC 2025","TestSanitization","String Processing","",""
+"Verify returns True if ABBA is present in any casing.","0","Detect ABBA in artist list (Case Insensitive)","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestIsAbbaSong","Helper Logic","",""
+"","0","Raise error if columns missing","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestCSVProcessing","Batch Processing","",""
+"","0","Remove video suffixes (Official Video, etc)","tests","Sun Dec 07 10:34:23 UTC 2025","passed","Sun Dec 07 10:34:23 UTC 2025","TestSanitization","String Processing","",""
+"Verify returns True if ABBA is present in any casing.","0","Detect ABBA in artist list (Case Insensitive)","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestIsAbbaSong","Helper Logic","",""
+"
+        Scenario: 'bad.mp3' causes EasyID3 to raise Exception.
+        Expectation: Row written: ['bad.mp3', '', ''] (empty metadata).
+        ","0","Fallback gracefully on corrupt/missing tags","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestMP3Metadata","Metadata","",""
+"Verify returns None if no tags have FrameID == 'APIC'.","1","Return None when no APIC frame exists","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestAlbumArtExtraction","Metadata Extraction","",""
+"
+        Scenario: Directory has no files.
+        Expectation: CSV created with just the header row.
+        ","0","Write only headers if directory is empty","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestDirectoryScanning","File System","",""
+"Verify that standard genres map to their defined main categories.","0","Map known genres to canonical categories","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"
+        Scenario: User picks are at the top, followed by bot picks.
+        Expectation: Returns the index of the first non-user item.
+        ","0","Find index when user picks are at the start","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestPlaylistIndexing","Playlist Logic","",""
+"Verify that standard genres map to their defined main categories.","0","Map known genres to canonical categories","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"Verify various delimiters are normalized to semicolons.","0","Split on commas, pipes, slashes, and 'and'","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestCleanGenre","Data Cleaning","",""
+"","0","Handle missing release ID","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestCAAProvider","Artwork Providers","",""
+"","0","Draw middle divider line","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestA5Creation","A5 Layout","",""
+"
+        Scenario: MutagenFile raises exception.
+        Expectation: Fallback to pygame.mixer.Sound.get_length().
+        ","1","Use pygame duration if Mutagen fails","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestDuration","Metadata","",""
+"Verify that any genre not in the mapping returns 'Pop'.","0","Unknown genres default to Pop","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"","0","Remove duplicate genres while preserving order","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestCleanGenre","Data Cleaning","",""
+"Verify returns False if ABBA is not strictly in the list.","0","Return False when ABBA is absent","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestIsAbbaSong","Helper Logic","",""
+"
+        Scenario: 1st provider fails (returns None), 2nd succeeds.
+        Expectation: Loop breaks after 2nd provider.
+        ","1","Provider Chain Fallback","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestCSVProcessing","Batch Processing","",""
+"
+        Scenario: Page exists, but infobox has no 'Genre' field.
+        Expectation: Returns None.
+        ","0","Return None if 'Genre' th is missing","tests","Sun Dec 07 10:34:26 UTC 2025","broken","Sun Dec 07 10:34:26 UTC 2025","TestFetchGenre","Wikipedia Integration","",""
+"","1","Detect required columns case-insensitively","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestCSVProcessing","Batch Processing","",""
+"
+        Scenario: tag_mp3 called with info.
+        Expectation: EasyID3 opened, fields set, saved.
+        ","0","Apply metadata to MP3 file","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestTagging","File Operations","",""
+"","0","Handle corrupt MP3 gracefully","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestTagging","File Operations","",""
+"
+        Scenario: iTunes API returns a result with artwork.
+        Expectation: Returns high-res (600x600) URL.
+        ","0","Parse iTunes JSON response correctly","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestItunesProvider","Artwork Providers","",""
+"
+        Scenario: Text bounding box is 100x20. Center is (500, 500).
+        Expectation: Top-left x = 500 - (100/2) = 450.
+                     Top-left y = 500 - (20/2) = 490.
+        ","0","Calculate centered position correctly","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestTextDrawing","Graphics Utils","",""
+"Verify that standard genres map to their defined main categories.","1","Map known genres to canonical categories","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"","2","test_get_data_valid","tests","Sun Dec 07 10:34:23 UTC 2025","passed","Sun Dec 07 10:34:23 UTC 2025","TestCsvParsing","Data Ingestion","",""
+"Verify various delimiters are normalized to semicolons.","1","Split on commas, pipes, slashes, and 'and'","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestCleanGenre","Data Cleaning","",""
+"
+        Scenario: First item is not from user.
+        Expectation: Returns 0 (insert at start).
+        ","0","Return 0 when no user picks exist","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestPlaylistIndexing","Playlist Logic","",""
+"Verify that standard genres map to their defined main categories.","0","Map known genres to canonical categories","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"Verify that input is trimmed and lowercased before mapping.","0","Handle whitespace and casing","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"","0","Parse filename if ID3 fails","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestMetadataReader","File System","",""
+"Verify that standard genres map to their defined main categories.","0","Map known genres to canonical categories","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"Verify returns True if ABBA is present in any casing.","1","Detect ABBA in artist list (Case Insensitive)","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestIsAbbaSong","Helper Logic","",""
+"","0","Remove feats, parens, and accents","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestNormalization","Data Cleaning","",""
+"
+        Scenario: Songs exist in both Primary and Default playlists.
+        Expectation: _get_next_song returns Primary song first.
+        ","0","Primary playlist takes precedence over Default","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestQueuePriority","Queue Management","",""
+"","1","test_set_artist_filter","tests","Sun Dec 07 10:34:25 UTC 2025","failed","Sun Dec 07 10:34:25 UTC 2025","TestArtistFilter","Filtering System","",""
+"Verify that standard genres map to their defined main categories.","0","Map known genres to canonical categories","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"","0","Save final canvas to disk","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestA5Creation","A5 Layout","",""
+"Verify various delimiters are normalized to semicolons.","0","Split on commas, pipes, slashes, and 'and'","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestCleanGenre","Data Cleaning","",""
+"","0","Ensure Title Case and strip separators","tests","Sun Dec 07 10:34:23 UTC 2025","passed","Sun Dec 07 10:34:23 UTC 2025","TestSanitization","String Processing","",""
+"
+        Scenario: Wikipedia raises an error (page not found or ambiguous).
+        Expectation: Returns None gracefully.
+        ","0","Handle PageError and DisambiguationError","tests","Sun Dec 07 10:34:26 UTC 2025","broken","Sun Dec 07 10:34:26 UTC 2025","TestFetchGenre","Wikipedia Integration","",""
+"
+        Scenario: yt-dlp saves 'Song.mp3', but sanitization expects 'Song Name.mp3'.
+        Expectation: Script iterates listdir to find 'Song.mp3' via partial match.
+        ","0","Find partial match if exact filename missing","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestDownloadWorkflow","Workflow","",""
+"
+        Scenario: All items in playlist are from 'user'.
+        Expectation: Returns length of playlist (append to end).
+        ","1","Return list length when all items are user picks","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestPlaylistIndexing","Playlist Logic","",""
+"
+        Scenario: Run the internal loop method directly.
+        Expectation: Plays sound on AMBIENT channel.
+        ","1","Ambient loop plays random file","tests","Sun Dec 07 10:34:25 UTC 2025","failed","Sun Dec 07 10:34:25 UTC 2025","TestAmbientMusic","Ambient Mode","",""
+"
+        Scenario: Directory has 'notes.txt'.
+        Expectation: Row written: ['notes.txt', '', '']
+        ","0","Include non-MP3 files with empty metadata","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestDirectoryScanning","File System","",""
+"Verify returns False if ABBA is not strictly in the list.","0","Return False when ABBA is absent","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestIsAbbaSong","Helper Logic","",""
+"
+        Scenario: play_song_immediately is called.
+        Expectation: self.immediate_playback is True inside the critical section.
+        ","2","Sets immediate_playback flag during execution","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestImmediatePlayback","Playback Controls","",""
+"","0","Interleave Primary and Default playlists","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestUpcomingSongsDisplay","Playlist Display Logic","",""
+"Verify that standard genres map to their defined main categories.","0","Map known genres to canonical categories","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"","3","test_yes_callback","tests","Sun Dec 07 10:34:23 UTC 2025","passed","Sun Dec 07 10:34:23 UTC 2025","TestConfirmDialog","Dialogs","",""
+"","0","Format seconds to MM:SS","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestFormatters","Utilities","",""
+"
+        Scenario: Items might lack the 'source' key.
+        Expectation: .get() returns None, which != 'user', so it treats as non-user.
+        ","0","Handle missing source keys safely","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestPlaylistIndexing","Playlist Logic","",""
+"Verify that standard genres map to their defined main categories.","0","Map known genres to canonical categories","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"","0","Split Artist - Title correctly","tests","Sun Dec 07 10:34:23 UTC 2025","passed","Sun Dec 07 10:34:23 UTC 2025","TestArtistParsing","String Processing","",""
+"","0","Remove video suffixes (Official Video, etc)","tests","Sun Dec 07 10:34:23 UTC 2025","passed","Sun Dec 07 10:34:23 UTC 2025","TestSanitization","String Processing","",""
+"
+        Scenario: process_file is called.
+        Expectation: Reads input, calls filler, writes to output.
+        ","0","Read CSV, process, and write CSV","tests","Sun Dec 07 10:34:26 UTC 2025","broken","Sun Dec 07 10:34:26 UTC 2025","TestProcessFile","Workflow","",""
+"
+        Scenario: Wikipedia page exists and has a 'Genre' row in the infobox.
+        Expectation: Returns cleaned genre string.
+        ","0","Parse genre from Infobox","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestFetchGenre","Wikipedia Integration","",""
+"
+        Scenario: MB search finds recording -> release. CAA has image.
+        Expectation: Returns CAA URL.
+        ","0","Navigate MBID -> Release -> Cover Art","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestCAAProvider","Artwork Providers","",""
+"
+        Scenario: Truetype font file is missing (OSError).
+        Expectation: Fallback to ImageFont.load_default().
+        ","0","Fallback to default font on OSError","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestA5Creation","A5 Layout","",""
+"","0","Remove feats, parens, and accents","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestNormalization","Data Cleaning","",""
+"Verify returns False if ABBA is not strictly in the list.","0","Return False when ABBA is absent","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestIsAbbaSong","Helper Logic","",""
+"","0","Remove citation brackets and whitespace","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestCleanGenre","Data Cleaning","",""
+"","1","Prevent selecting already played songs","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestSongSelection","User Interaction","",""
+"Verify that specific shorthand aliases map correctly.","0","Map specific aliases like x-mas and alt rock","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"","0","Remove video suffixes (Official Video, etc)","tests","Sun Dec 07 10:34:23 UTC 2025","passed","Sun Dec 07 10:34:23 UTC 2025","TestSanitization","String Processing","",""
+"Verify that input is trimmed and lowercased before mapping.","0","Handle whitespace and casing","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"","2","Load filenames from JSON","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestDataLoading","Data Management","",""
+"Verify that standard genres map to their defined main categories.","0","Map known genres to canonical categories","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"Verify that binary data is returned if an APIC frame exists.","1","Extract APIC frame data when present","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestAlbumArtExtraction","Metadata Extraction","",""
+"","0","Return None for artist if separator missing","tests","Sun Dec 07 10:34:23 UTC 2025","passed","Sun Dec 07 10:34:23 UTC 2025","TestArtistParsing","String Processing","",""
+"
+        Scenario: MusicBrainz returns valid JSON with tags.
+        Expectation: Returns the most frequent tag.
+        ","0","Extract genre from valid MB response","tests","Sun Dec 07 10:34:23 UTC 2025","broken","Sun Dec 07 10:34:23 UTC 2025","TestMusicBrainz","Metadata","",""
+"","0","Low score for different songs","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestScoring","Matching Logic","",""
+"Verify that input is trimmed and lowercased before mapping.","0","Handle whitespace and casing","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"Verify returns True if ABBA is present in any casing.","0","Detect ABBA in artist list (Case Insensitive)","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestIsAbbaSong","Helper Logic","",""
+"
+        Scenario: Valid MP3 exists.
+        Expectation: ID3 tags are read and structured correctly.
+        ","1","Parse metadata from valid MP3 file","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestGetMp3Files","File System Scanning","",""
+"","0","Process .MP3 extension same as .mp3","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestMP3Metadata","Metadata","",""
+"","0","Remove feats, parens, and accents","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestNormalization","Data Cleaning","",""
+"","0","Format seconds to MM:SS","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestFormatters","Utilities","",""
+"","0","Format seconds to MM:SS","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestFormatters","Utilities","",""
+"Verify returns False if ABBA is not strictly in the list.","0","Return False when ABBA is absent","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestIsAbbaSong","Helper Logic","",""
+"
+        Scenario: 1 item in playlist. File exists (simulated download).
+        Expectation: Sanitization -> File Check -> Tagging.
+        ","0","Process playlist entries and tag files","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestDownloadWorkflow","Workflow","",""
+"Verify various delimiters are normalized to semicolons.","0","Split on commas, pipes, slashes, and 'and'","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestCleanGenre","Data Cleaning","",""
+"","0","Remove feats, parens, and accents","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestNormalization","Data Cleaning","",""
+"Verify that standard genres map to their defined main categories.","0","Map known genres to canonical categories","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"
+        Scenario: write_genre_tag called.
+        Expectation: TCON frame added and saved.
+        ","0","Write TCON frame to ID3","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestEmbedding","File Operations","",""
+"","0","Fallback to 'Wedding' on failure","tests","Sun Dec 07 10:34:24 UTC 2025","broken","Sun Dec 07 10:34:24 UTC 2025","TestMusicBrainz","Metadata","",""
+"
+        Scenario: Pop next song.
+        Expectation: Song is returned and removed from the list.
+        ","0","Correctly remove song from queue","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestQueuePriority","Queue Management","",""
+"
+        Scenario: Artist tag is 'Queen / David Bowie'.
+        Expectation: Parsed into ['Queen', 'David Bowie'].
+        ","1","Split multiple artists by separators","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestGetMp3Files","File System Scanning","",""
+"","0","test_emoji_mapping","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestVisuals","Visuals","",""
+"
+        Scenario: song_counter is 5.
+        Expectation: Returns song from Special playlist, even if Primary exists.
+        ","0","Special playlist triggers on 5th song","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestQueuePriority","Queue Management","",""
+"","0","Return None on empty results or error","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestItunesProvider","Artwork Providers","",""
+"Verify that standard genres map to their defined main categories.","0","Map known genres to canonical categories","tests","Sun Dec 07 10:34:26 UTC 2025","passed","Sun Dec 07 10:34:26 UTC 2025","TestGenreNormalization","Data Normalization","",""
+"
+        Scenario: DataFrame has 3 rows: one with genre, two without.
+        Expectation: fetch_genre called only for rows with NaN genres.
+        ","0","Only fill missing rows","tests","Sun Dec 07 10:34:26 UTC 2025","broken","Sun Dec 07 10:34:26 UTC 2025","TestFillMissingGenres","Data Processing","",""
+"
+        Scenario: File has no ID3 tags yet.
+        Expectation: ID3() constructor fails, so it instantiates empty ID3(), adds tag, saves.
+        ","0","Handle ID3NoHeaderError (create new tags)","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestEmbedding","File Operations","",""
+"
+        Scenario: Call play_song_immediately.
+        Expectation: Sets flags, loads music, plays, and resets flags.
+        ","102","Play song immediately stops current music","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestImmediatePlayback","Playback Controls","",""
+"","0","Format seconds to MM:SS","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestFormatters","Utilities","",""
+"","1","test_pick_question_success","tests","Sun Dec 07 10:34:23 UTC 2025","passed","Sun Dec 07 10:34:23 UTC 2025","TestQuestionSelection","Logic","",""
+"
+        Scenario: Image URL is valid.
+        Expectation: Download image -> Embed APIC -> Save.
+        ","0","Download and embed APIC frame","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestEmbedding","File Operations","",""
+"
+        Scenario: mutagen raises an exception (e.g., corrupt header).
+        Expectation: Fallback to filename as title, 'Unknown Artist', 'unknown genre'.
+        ","1","Graceful fallback on corrupt metadata","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestGetMp3Files","File System Scanning","",""
+"
+        Scenario: Start ambient music.
+        Expectation: Finds files and starts a daemon thread.
+        ","1","Find MP3s in folder and start thread","tests","Sun Dec 07 10:34:25 UTC 2025","passed","Sun Dec 07 10:34:25 UTC 2025","TestAmbientMusic","Ambient Mode","",""
+"
+        Scenario: CSV has 1 row, but file does not exist on disk.
+        Expectation: Skips processing for that row.
+        ","0","Process Loop ignores missing files","tests","Sun Dec 07 10:34:25 UTC 2025","broken","Sun Dec 07 10:34:25 UTC 2025","TestCSVProcessing","Batch Processing","",""
