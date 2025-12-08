@@ -8,6 +8,7 @@ from gui import JukeboxGUI
 from player import JukeboxPlayer
 from song_library import get_all_mp3_files_with_metadata, is_abba_song
 from dialogs import confirm_dialog, confirm_dialog_error
+import argparse
 import threading
 import os
 import random
@@ -260,9 +261,12 @@ class JukeboxKivyApp(App):
             player=player,
             select_song_cb=select_song,
             dance_cb=lambda: [player.play_special_song(), start_playback_thread()],
-            test_cb=play_test_songs,
-            play_ambient_cb=start_ambient_music,
-            stop_ambient_cb=stop_ambient_music,
+            
+            # only pass callbacks if the feature is enabled
+            test_cb=None if args.NoTest else play_test_songs,
+
+            play_ambient_cb=None if args.NoAmbient else start_ambient_music,
+            stop_ambient_cb=None if args.NoAmbient else stop_ambient_music,
         )
         
         # --- Populate GUI filters with available artists and genres ---
@@ -300,4 +304,24 @@ class JukeboxKivyApp(App):
         return RootWidget(gui)
 
 if __name__ == "__main__":
+    """
+    python main.py (run normally)
+
+    python main.py -- --NoTest (no test button)
+
+    python main.py -- --NoAmbient (no ambient buttons)
+
+    python main.py -- --NoTest --NoAmbient (no test or ambient buttons)
+    
+    """
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--NoTest", action="store_true",
+                        help="Hide the Test Music button")
+    parser.add_argument("--NoAmbient", action="store_true",
+                        help="Hide Ambient Music buttons")
+
+    args = parser.parse_args()
+
     JukeboxKivyApp().run()
