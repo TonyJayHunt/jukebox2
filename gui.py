@@ -116,6 +116,9 @@ class JukeboxGUI(BoxLayout):
             on_press=self.handle_test,
             background_color=(1, 0.8, 0.4, 1),
         )
+        if self.test_cb is None:
+            self.test_btn.opacity = 0
+            self.test_btn.disabled = True
 
         # Don't add the Let’s Dance button to row1; only Test Music is visible
         # self.row1.add_widget(self.dance_btn)
@@ -137,6 +140,9 @@ class JukeboxGUI(BoxLayout):
             on_press=self.handle_play_ambient,
             background_color=(0.6, 0.8, 1, 1),
         )
+        if self.play_ambient_cb is None:
+            self.play_ambient_btn.opacity = 0
+            self.play_ambient_btn.disabled = True
 
         self.stop_ambient_btn = Button(
             text="Stop Ambient Music",
@@ -146,7 +152,10 @@ class JukeboxGUI(BoxLayout):
             on_press=self.handle_stop_ambient,
             background_color=(1, 0.6, 0.6, 1),
         )
-
+        if self.stop_ambient_cb is None:
+            self.stop_ambient_btn.opacity = 0
+            self.stop_ambient_btn.disabled = True
+            
         self.row2.add_widget(self.play_ambient_btn)
         self.row2.add_widget(self.stop_ambient_btn)
 
