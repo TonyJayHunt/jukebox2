@@ -222,6 +222,13 @@ def map_filenames_to_song_objects(filenames, song_path_map):
     return loaded_songs
 
 class JukeboxKivyApp(App):
+    def __init__(self, no_test=False, no_ambient=False, **kwargs):
+        # Let Kivy initialize normally with its own kwargs
+        super().__init__(**kwargs)
+        # Store our custom flags
+        self.no_test = no_test
+        self.no_ambient = no_ambient
+
     def build(self):
         global gui, player, all_songs_list, all_songs_path_map
         
@@ -235,7 +242,7 @@ class JukeboxKivyApp(App):
         # 2. Load playlists and map filenames to song objects
         special_playlist_filenames = load_song_filenames_from_json('Special_playlist.json')
         songs_from_special_json = map_filenames_to_song_objects(special_playlist_filenames, all_songs_path_map)
-        for s in songs_from_special_json: # Ensure correct genre tagging
+        for s in songs_from_special_json:  # Ensure correct genre tagging
             s['genres'] = ['Special']
         
         default_playlist_filenames = load_song_filenames_from_json('default_playlist.json')
@@ -261,12 +268,10 @@ class JukeboxKivyApp(App):
             player=player,
             select_song_cb=select_song,
             dance_cb=lambda: [player.play_special_song(), start_playback_thread()],
-            
-            # only pass callbacks if the feature is enabled
-            test_cb=None if args.NoTest else play_test_songs,
-
-            play_ambient_cb=None if args.NoAmbient else start_ambient_music,
-            stop_ambient_cb=None if args.NoAmbient else stop_ambient_music,
+            # NOTE: respect our flags here
+            test_cb=None if self.no_test else play_test_songs,
+            play_ambient_cb=None if self.no_ambient else start_ambient_music,
+            stop_ambient_cb=None if self.no_ambient else stop_ambient_music,
         )
         
         # --- Populate GUI filters with available artists and genres ---
@@ -285,9 +290,8 @@ class JukeboxKivyApp(App):
         # Now, filter this list to include only artists with at least one available song.
         available_artists = []
         for artist in all_artists_in_library:
-            # Check if this artist has any song that is NOT in the unavailable list.
             has_available_song = any(
-                song['title'] not in unavailable_titles 
+                song['title'] not in unavailable_titles
                 for song in all_songs_list if artist in song.get('artists', [])
             )
             if has_available_song:
@@ -305,15 +309,13 @@ class JukeboxKivyApp(App):
 
 if __name__ == "__main__":
     """
-    python main.py (run normally)
-
-    python main.py -- --NoTest (no test button)
-
-    python main.py -- --NoAmbient (no ambient buttons)
-
-    python main.py -- --NoTest --NoAmbient (no test or ambient buttons)
-    
+    python main.py                          # run normally
+    python main.py -- --NoTest                 # hide only Test button
+    python main.py -- --NoAmbient              # hide Ambient buttons
+    python main.py -- --NoButtons              # hide BOTH Test + Ambient buttons
     """
+
+    import argparse
 
     parser = argparse.ArgumentParser()
 
@@ -321,7 +323,20 @@ if __name__ == "__main__":
                         help="Hide the Test Music button")
     parser.add_argument("--NoAmbient", action="store_true",
                         help="Hide Ambient Music buttons")
+    parser.add_argument("--NoButtons", action="store_true",
+                        help="Hide ALL extra buttons (same as NoTest + NoAmbient)")
 
     args = parser.parse_args()
 
-    JukeboxKivyApp().run()
+    # -------------------------
+    # Expand NoButtons shortcut
+    # -------------------------
+    if args.NoButtons:
+        args.NoTest = True
+        args.NoAmbient = True
+
+    # pass flags into the app
+    JukeboxKivyApp(
+        no_test=args.NoTest,
+        no_ambient=args.NoAmbient
+    ).run()
