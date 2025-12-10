@@ -17,7 +17,7 @@ from mutagen.id3 import APIC, ID3, ID3NoHeaderError, TCON
 FILENAME_HEADERS = {"filename", "file_name", "file", "track", "song"}
 GENRE_HEADERS = {"genre", "style"}
 DEFAULT_CSV = "file_list_updated_with_genre.csv"
-DEFAULT_DIR = "mp3"
+DEFAULT_DIR = "mp3_1"
 
 REQUEST_DELAY = 0.2  # seconds between external requests
 USER_AGENT = (
